@@ -9,17 +9,25 @@ import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
+import { EntradaComponent } from './entrada/entrada.component';
+import { FormsModule } from '@angular/forms';
+import { CadastroComponent } from './cadastro/cadastro.component';
+import { RelatoriosComponent } from './relatorios/relatorios.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    EntradaComponent,
+    RelatoriosComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     PoModule,
+    FormsModule,
     RouterModule.forRoot([]),
     PoTemplatesModule
   ],

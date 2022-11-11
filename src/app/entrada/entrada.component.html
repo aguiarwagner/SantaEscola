@@ -1,0 +1,36 @@
+<po-page-default
+  >
+
+  <hr>
+  <po-info p-label="Entrada">
+  </po-info>
+
+  <div class="po-row">
+    <po-input
+      class="po-md-8"
+      [(ngModel)]="CodBar"
+      name="CodBar"
+      p-label='Digite o código da criança.'
+      p-clean="true"
+      p-required="true"
+      (keyup.Enter)="onClick($event)"
+
+      p-placeholder="Digite o código da criança.">
+    </po-input>
+
+    <po-button
+          id="btngerar"
+          class="po-md-1"
+          p-icon="po-icon-search"
+
+          (p-change)="onClick($event)">
+        </po-button>
+
+
+
+
+
+
+  </div>
+
+</po-page-default>

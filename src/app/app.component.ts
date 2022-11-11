@@ -25,6 +25,8 @@ export class AppComponent {
   AuthService: AuthService = new AuthService( this._httpClient, this.httpService, this.router);
   menus: Array<PoMenuItem> = [
     { label: 'Início', icon: 'po-icon-home', link: './', shortLabel: 'Inicio' },
+    { label: 'Entrada', icon: 'po-icon po-icon-user-add', link: './entrada', shortLabel: 'Entrada' },
+    { label: 'Cadastro', icon: 'po-icon po-icon-news', link: './cadastro', shortLabel: 'Cadastro' },
   ];
 
   titleToolbar = 'Santa Escola';
