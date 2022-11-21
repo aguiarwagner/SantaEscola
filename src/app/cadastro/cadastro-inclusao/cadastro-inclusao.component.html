@@ -1,1 +1,179 @@
-<p>cadastro-inclusao works!</p>
+<po-page-default p-title="Inclusão de produto">
+
+  <div class="po-md-12">
+    <div class="po-md-12">
+      <form #formProduto="ngForm">
+        <po-container>
+          <po-input
+            class="po-md-4"
+            [(ngModel)]="mapa.NomeCrianca"
+            name="NomeCrianca"
+            p-label='Nome da Criança'
+            p-clean="true"
+            p-placeholder="Insira o nome da Criança">
+          </po-input>
+
+          <po-datepicker
+            class="po-md-2"
+            name="DataNascimento"
+            [(ngModel)]="mapa.DataNascimento"
+            p-label="Data de Nascimento">
+          </po-datepicker>
+
+          <po-input
+            class="po-md-6"
+            [(ngModel)]="mapa.Endereco"
+            name="Endereco"
+            p-label='Endereço'
+            p-clean="true"
+            p-placeholder="Insira o endereço">
+          </po-input>
+
+          <po-input
+            class="po-md-4"
+            [(ngModel)]="mapa.Bairro"
+            name="Bairro"
+            p-label='Bairro'
+            p-clean="true"
+            p-placeholder="Insira o Bairro ">
+          </po-input>
+
+          <po-input
+            class="po-md-4"
+            [(ngModel)]="mapa.CEP"
+            name="CEP"
+            p-label='CEP'
+            p-clean="true"
+            p-placeholder="Insira o CEP"
+            p-mask="99999-999">
+          </po-input>
+
+          <po-input
+            class="po-md-4"
+            [(ngModel)]="mapa.TelCrianca"
+            name="TelCrianca"
+            p-label='Telefone Criança'
+            p-clean="true"
+            p-placeholder="Insira o telefeone da Criança"
+            p-mask="(99) 99999-9999">
+          </po-input>
+
+          <po-input
+            class="po-md-8"
+            [(ngModel)]="mapa.NomePai"
+            name="NomePai"
+            p-label="Nome do Pai / Responsável"
+            p-clean="true"
+            p-placeholder="Insira o nome do pai ou responsável">
+          </po-input>
+
+          <po-input
+            class="po-md-4"
+            [(ngModel)]="mapa.TelPai"
+            name="TelPai"
+            p-label="Telefone do Pai ou responsável"
+            p-clean="true"
+            p-placeholder="Insira o telefeone do pai ou responsável"
+            p-mask="(99) 99999-9999">
+          </po-input>
+
+          <po-input
+            class="po-md-8"
+            [(ngModel)]="mapa.NomeMae"
+            name="NomeMae"
+            p-label="Nome da mãe"
+            p-clean="true"
+            p-placeholder="Insira o mãe da mãe">
+          </po-input>
+
+          <po-input
+            class="po-md-4"
+            [(ngModel)]="mapa.TelMae"
+            name="TelMae"
+            p-label='Telefone da mãe'
+            p-clean="true"
+            p-placeholder="Insira o telefone da mãe"
+            p-mask="(99) 99999-9999">
+          </po-input>
+
+          <po-input
+            class="po-md-12"
+            [(ngModel)]="mapa.Email"
+            name="Email"
+            p-label='E-mail'
+            p-clean="true"
+            p-placeholder="Insira o e-mail">
+          </po-input>
+
+          <po-textarea
+            class="po-md-12"
+            [(ngModel)]="mapa.RestricoesAlimentares"
+            name="RestricoesAlimentares"
+            p-label='Restrições alimentares.'
+            p-clean="true"
+            [p-maxlength]="500"
+            p-placeholder="Insira as restrições alimentares caso possua">
+          </po-textarea>
+
+          <po-textarea
+            class="po-md-12"
+            [(ngModel)]="mapa.IndicacoesMedicas"
+            name="IndicacoesMedicas"
+            p-label='Indicações Médicas'
+            p-clean="true"
+            [p-maxlength]="500"
+            p-placeholder="Insira as indicações médicas caso possua">
+          </po-textarea>
+
+          <po-textarea
+            class="po-md-12"
+            [(ngModel)]="mapa.Observacoes"
+            name="Observacoes"
+            p-label='Observações'
+            p-clean="true"
+            [p-maxlength]="500"
+            p-placeholder="Insira as observações">
+          </po-textarea>
+
+        </po-container>
+        <po-container>
+          <div class="po-row">
+            <po-button
+              class="po-md-6"
+              p-label="Salvar"
+              p-type="primary"
+              p-icon="po-icon po-icon-plus"
+              [p-small]="true"
+              (p-click)="Grava()">
+            </po-button>
+            <po-button
+              class="po-md-6"
+              p-label="Cancelar"
+              p-type="primary"
+              p-icon="po-icon po-icon-exit"
+              [p-small]="true"
+              (p-click)="Cancel()"
+            >
+            </po-button>
+          </div>
+        </po-container>
+      </form>
+
+    </div>
+  </div>
+
+
+
+</po-page-default>
+<!--
+<po-modal #modalCancelEditProduto
+  p-close
+  p-size="sm"
+  [p-title]=".modalCancelEditProdutoTitle"
+  [p-primary-action]="confirmReturnToListAction"
+  [p-secondary-action]="returnAction">
+
+  <div class="po-font-text-large po-text-left">{{ .modalCancelEditProdutoMessage | [mapa.id]}}</div>
+</po-modal>
+-->
+

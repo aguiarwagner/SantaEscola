@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PoNotificationService } from '@po-ui/ng-components';
+import { HttpService } from '../http.service';
+import { Mapa } from '../Shared/mapa';
 
 @Component({
   selector: 'app-entrada',
@@ -8,10 +10,12 @@ import { PoNotificationService } from '@po-ui/ng-components';
 })
 
 export class EntradaComponent implements OnInit {
+  mapa: Mapa = new Mapa();
   CodBar: any;
   err: any;
   constructor(
     public poNotification: PoNotificationService,
+    private httpService: HttpService,
   ) { }
 
   ngOnInit(): void {
@@ -24,6 +28,11 @@ export class EntradaComponent implements OnInit {
 
     this.CodBar = "";
     this.poNotification.success("Código de Barras "+ teste);
+    this.httpService.getTeste(this.mapa).subscribe((resposta=> {
+
+      teste = resposta;
+    })
+    );
 
 
   }

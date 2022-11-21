@@ -1,42 +1,43 @@
-<po-page-default
-  >
 
-  <hr>
-  <po-info p-label="Cadastro de Clientes Prime/Público/TM">
-  </po-info>
+  <po-page-list
 
-  <div class="po-row">
+  p-show-more-disabled="true"
+  p-title= "Cadastro de Crianças"
+  [p-actions]="pageActions"
+  [p-breadcrumb]="breadcrumb"
+  [p-disclaimer-group]="disclaimerGroup"
+  [p-filter]="filterSettings">
 
-        <po-button
-          id="btngerar"
-          class="po-md-1"
-          p-icon="po-icon-search"
+  <po-container >
+  <po-button
+    id="btngerar"
+    class="po-md-12"
+    p-type="primary"
+    p-icon="po-icon po-icon-plus"
+    [p-small]="true"
+    (p-click)= "Incluir()"
+    [p-loading]="loadButton"
+    [p-label]="labelButton"
+    p-primary="true">
+  </po-button>
+</po-container>
 
-          (p-click)="onClick()">
-        </po-button>
+<po-container>
+  <po-table
+    [p-selectable]="true"
+    [p-hide-select-all]="false"
+    [p-selectable]="false"
+    [p-actions-right]="true"
+    [p-loading]="isLoading"
+    [p-actions]="tableActions"
+    [p-columns]="columns"
+    [p-actions-right]
+    [p-items]="itemsFiltered"
+    [p-sort]="true">
+  </po-table>
 
-        <po-button
-          id="btngerar"
-          class="po-md-1"
-          p-icon="po-icon-search"
+</po-container>
+</po-page-list>
 
-          (p-click)="onClick2()">
-        </po-button>
-        <po-button
-          id="btngerar"
-          class="po-md-1"
-          p-icon="po-icon-search"
 
-          (p-click)="onClick3()">
-        </po-button>
-        <po-button
-          id="btngerar"
-          class="po-md-1"
-          p-icon="po-icon-search"
 
-          (p-click)="onClick4()">
-        </po-button>
-
-  </div>
-
-</po-page-default>

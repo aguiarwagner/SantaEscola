@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class HttpService {
   loginUser = 'http://localhost:84/v1/account/login/';
-  getTester = 'http://localhost:84/v1/account/employee';
+  getCadastroCriancas = 'http://localhost:84/api/DadosCriancas';
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -35,9 +35,32 @@ export class HttpService {
     'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
     })
 
-    return this.http.get(this.getTester,  { headers: headers })
+    return this.http.get(this.getCadastroCriancas,  { headers: headers })
     .pipe(map(res =>
         res
     ));
+  }
+
+  getCriancas() {
+    let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+    })
+
+    return this.http.get(this.getCadastroCriancas,  { headers: headers })
+    .pipe(map(res =>
+        res
+    ));
+  }
+
+  postCriancas(mapa: Mapa)  {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+      })
+
+    return this.http.post(this.getCadastroCriancas, mapa,  { headers: headers });
   }
 }
