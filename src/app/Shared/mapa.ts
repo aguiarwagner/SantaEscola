@@ -20,6 +20,22 @@ export class Mapa {
   RestricoesAlimentares: string = "";
   IndicacoesMedicas: string = "";
   Observacoes: string = "";
+  nomeCrianca: string = "";
+  dataNascimento: string = "";
+  endereco: string = "";
+  bairro: string = "";
+  cep: string = "";
+  telCrianca: string = "";
+  nomePai: string = "";
+  telPai: string = "";
+  nomeMae: string = "";
+  telMae: string = "";
+  email: string = "";
+  restricoesAlimentares: string = "";
+  indicacoesMedicas: string = "";
+  observacoes: string = "";
+  recno: number;
+  Recno: number;
 
 
   constructor(values: Object = {}) {

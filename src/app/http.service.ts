@@ -2,8 +2,9 @@ import { AuthService } from './guards/auth.service';
 import { Mapa } from './Shared/mapa';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+//import { ResponsePageable } from './ResponsePageable';
 
 @Injectable({
   providedIn: 'root'
@@ -62,5 +63,27 @@ export class HttpService {
       })
 
     return this.http.post(this.getCadastroCriancas, mapa,  { headers: headers });
+  }
+
+  putCriancas(Recno: number, mapa: Mapa)  {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+      })
+
+    return this.http.put(this.getCadastroCriancas + '/' + Recno,  mapa,  { headers: headers });
+  }
+
+
+  getCriancasId(id: number): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+      })
+
+    return this.http.get(this.getCadastroCriancas + '/' + id,  { headers: headers });
+
   }
 }

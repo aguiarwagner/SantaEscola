@@ -12,9 +12,9 @@ import { CadastroComponent } from './cadastro.component';
 const routes: Routes = [
   { path: '', component: CadastroComponent },
   { path: 'inclusao', component: CadastroInclusaoComponent },
-  { path: 'alteracao', component: CadastroAlteracaoComponent },
-  { path: 'exclusao', component: CadastroExclusaoComponent },
-  { path: 'visualizacao', component: CadastroVisualizacaoComponent },
+  { path: 'alteracao/:id', component: CadastroAlteracaoComponent },
+  { path: 'exclusao/:id', component: CadastroExclusaoComponent },
+  { path: 'visualizacao/:id', component: CadastroVisualizacaoComponent },
 ];
 //const routes: Routes = [{ path: 'incluao', component: CadastroInclusaoComponent }];
 

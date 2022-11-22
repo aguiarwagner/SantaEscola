@@ -44,7 +44,7 @@ export class CadastroComponent implements OnInit {
     this.tableActions = [
       { action: this.visualCriancas.bind(this), label: "Visualizar" },
       { action: this.alteraCriancas.bind(this), label: 'Alterar' },
-      { action: this.excluirCriancas.bind(this), label: 'Excluir' }
+      //{ action: this.excluirCriancas.bind(this), label: 'Excluir' }
 
     ]
 
@@ -61,12 +61,13 @@ export class CadastroComponent implements OnInit {
       this.itens = [];
       this.itens = dados
       this.items = this.itens
-     .map( (data: { nomeCrianca: any; dataNascimento: any; endereco: any; bairro: any; }) => {
+     .map( (data: { nomeCrianca: any; dataNascimento: any; endereco: any; bairro: any;  recno: any}) => {
         return {
           NomeCrianca: data.nomeCrianca,
-          DataNascimento: data.dataNascimento,
+          DataNascimento: data.dataNascimento.substring(8, 10) + "/" + data.dataNascimento.substring(5, 7) + "/" + data.dataNascimento.substring(0, 4),
           Endereco: data.endereco,
-          Bairro: data.bairro
+          Bairro: data.bairro,
+          Recno: data.recno
         }
     });
 
@@ -133,14 +134,14 @@ export class CadastroComponent implements OnInit {
   Incluir(){
     this.router.navigate(['cadastro/inclusao']);
   }
-  alteraCriancas(){
-    this.router.navigate(['cadastro/alteracao']);
+  alteraCriancas(mapa: any){
+    this.router.navigate(['cadastro/alteracao', mapa.Recno]);
   }
-  excluirCriancas(){
-    this.router.navigate(['cadastro/exclusao']);
+  excluirCriancas(mapa: any){
+    this.router.navigate(['cadastro/exclusao', mapa.Recno]);
   }
-  visualCriancas(){
-    this.router.navigate(['cadastro/visualizacao']);
+  visualCriancas(mapa: any){
+    this.router.navigate(['cadastro/visualizacao', mapa.Recno]);
   }
 
 
