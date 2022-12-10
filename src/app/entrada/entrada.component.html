@@ -1,36 +1,62 @@
-<po-page-default
-  >
+<po-page-list
+  p-show-more-disabled="true"
+  p-title= "Entrada de crianças"
+  [p-breadcrumb]="breadcrumb"
+  [p-disclaimer-group]="disclaimerGroup"
+  [p-actions]="actions"
+  [p-filter]="filterSettings">
+
 
   <hr>
   <po-info p-label="Entrada">
   </po-info>
-
-  <div class="po-row">
-    <po-input
-      class="po-md-8"
-      [(ngModel)]="CodBar"
-      name="CodBar"
-      p-label='Digite o código da criança.'
-      p-clean="true"
-      p-required="true"
-      (keyup.Enter)="onClick($event)"
-
-      p-placeholder="Digite o código da criança.">
-    </po-input>
-
-    <po-button
+  <po-tabs>
+    <po-tab 
+      [p-active]="lTeste"
+      (p-click)="SelecionaAba(1)"
+      p-label="Ler Código de Barras">
+      <div class="po-row">
+    
+        <po-input
+          class="po-md-8"
+          [(ngModel)]="CodBar"
+          name="CodBar"
+          p-label='Digite o código de barras.'
+          p-clean="true"
+          p-required="true"
+          (keyup.Enter)="onClick($event)"    
+          p-placeholder="Digite o código de barras ou faça a leitura via leitor.">
+        </po-input>
+    
+        <po-button class="po-row"
           id="btngerar"
           class="po-md-1"
-          p-icon="po-icon-search"
-
+          p-icon="po-icon po-icon-plus"    
           (p-change)="onClick($event)">
         </po-button>
+    
+      </div>
+    </po-tab>
+    <po-tab 
+      p-label="Entrada manual"
+      (p-click)="SelecionaAba(2)">
+      <po-container>
+        <po-table
+          [p-selectable]="true"
+          [p-hide-select-all]="true"
+          [p-selectable]="true"
+          [p-actions-right]="true"
+          [p-loading]="isLoading"
+          [p-single-select]="true"
+          [p-columns]="columns"
+          [p-actions-right]
+          [p-items]="itemsFiltered"
+          [p-sort]="true">
+        </po-table>
+      
+      </po-container>
+    </po-tab>
+  </po-tabs> 
 
 
-
-
-
-
-  </div>
-
-</po-page-default>
+</po-page-list>
