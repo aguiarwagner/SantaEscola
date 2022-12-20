@@ -31,7 +31,6 @@ export class CadastroVisualizacaoComponent implements OnInit {
 
     this.httpService.getCriancasId(parseInt(this.id)).subscribe((mapa: Mapa) => {
       this.mapa = mapa;
-
     });
   }
 

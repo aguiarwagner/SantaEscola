@@ -1,0 +1,69 @@
+<po-page-default p-title="Exclusão de reunião">
+
+  <div class="po-md-12">
+    <div class="po-md-12">
+      <form #formReuniaoinclusao="ngForm">
+        <po-container>
+
+          <po-datepicker
+            class="po-md-2"
+            name="dataReuniao"
+            p-disabled="true"
+            [(ngModel)]="mapa.dataReuniao"
+            p-label="Data da reuniao">
+          </po-datepicker>
+
+          <po-textarea
+            class="po-md-12"
+            [(ngModel)]="mapa.assuntoAbordado"
+            name="mapa.assuntoAbordado"
+            p-label='Assuntos abordados.'
+            p-clean="true"
+            [p-disabled]="true"
+            [p-maxlength]="500"
+            p-placeholder="Insira o assunto abordado">
+          </po-textarea>
+
+          <po-textarea
+            class="po-md-12"
+            [(ngModel)]="mapa.observacoes"
+            name="Observacoes"
+            p-label='Observações'
+            p-clean="true"
+            [p-disabled]="true"
+            [p-maxlength]="500"
+            p-placeholder="Insira as observações">
+          </po-textarea>
+
+        </po-container>
+        <po-container>
+          <div class="po-row">
+            <po-button
+              class="po-md-6"
+              p-label="Confirmar"
+              p-type="primary"
+              p-icon="po-icon po-icon-plus"
+              [p-small]="true"
+              (p-click)="Grava()">
+            </po-button>
+            <po-button
+              class="po-md-6"
+              p-label="Cancelar"
+              p-type="primary"
+              p-icon="po-icon po-icon-exit"
+              [p-small]="true"
+              (p-click)="Cancel()"
+            >
+            </po-button>
+          </div>
+        </po-container>
+      </form>
+
+    </div>
+  </div>
+
+
+
+</po-page-default>
+
+

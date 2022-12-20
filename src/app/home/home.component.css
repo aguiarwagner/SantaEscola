@@ -1,0 +1,19 @@
+#blockquote{
+  border-left: 5px ;
+  margin: 0px 0 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  text-align: center;
+  color: blue;
+}
+
+#hr {
+border:#ffffff solid ;
+}
+
+#ul{
+  margin-top: 10px;
+}
+#wid{
+  margin-top: 10px;
+}

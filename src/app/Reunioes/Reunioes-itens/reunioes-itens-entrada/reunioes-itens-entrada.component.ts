@@ -1,15 +1,17 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PoBreadcrumb, PoDisclaimer, PoDisclaimerGroup, PoNotificationService, PoPageAction, PoPageFilter, PoTableColumn } from '@po-ui/ng-components';
-import { HttpService } from '../http.service';
-import { Mapa } from '../Shared/mapa';
+import { HttpService } from 'src/app/http.service';
+import { Mapa } from 'src/app/Shared/mapa';
 
 @Component({
-  selector: 'app-entrada',
-  templateUrl: './entrada.component.html',
-  styleUrls: ['./entrada.component.css']
+  selector: 'app-reunioes-itens-entrada',
+  templateUrl: './reunioes-itens-entrada.component.html',
+  styleUrls: ['./reunioes-itens-entrada.component.css']
 })
-
-export class EntradaComponent implements OnInit {
+export class ReunioesItensEntradaComponent implements OnInit {
+  recno: any = "";
   mapa: Mapa = new Mapa();
   CodBar: any;
   err: any;
@@ -17,22 +19,27 @@ export class EntradaComponent implements OnInit {
   isLoading: boolean = true;
   itemsFiltered: Array<any>;
   items: Array<any>;
+  items2: Array<any>;
   columns: Array<PoTableColumn> = [];
   breadcrumb: PoBreadcrumb;
   disclaimerGroup: PoDisclaimerGroup;
   itens: any = [];
+  itens2: any = [];
   lControlFilter: boolean = false;
   private disclaimers: Array<PoDisclaimer> = [];
-  lEntradaManual: boolean = false;
-  
+  lEntradaManual: boolean = true;
+  lOk: boolean = true;
+  now = new Date();
 
   constructor(
     public poNotification: PoNotificationService,
+    private router: Router,
     private httpService: HttpService,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    this.CodBar= "";
+    this.recno =  this.activatedRoute.snapshot.paramMap.get('id');
 
     this.GetCriancas()
 
@@ -50,20 +57,7 @@ export class EntradaComponent implements OnInit {
       disclaimers: [],
       change: this.onChangeDisclaimer.bind(this)
     };
-
   }
-
-  onClick(value: any){
-    let teste = this.CodBar;
-
-    this.CodBar = "";
-    this.poNotification.success("Código de Barras "+ teste);
-    this.httpService.getTeste(this.mapa).subscribe((resposta=> {
-
-      teste = resposta;
-    })
-    );
-  }  
 
   GetCriancas(){
     this.httpService.getCriancas().subscribe(dados => {
@@ -84,6 +78,98 @@ export class EntradaComponent implements OnInit {
     this.isLoading = false
 
     });
+
+  }
+
+  GravaSaida(value: any){   
+    let lAchou = false
+    //let now = new Date;
+    const datePipe = new DatePipe('en-US');
+    debugger
+    for (let index = 0; index < this.items.length; index++) {
+      if (this.items[index].Recno == parseInt(this.CodBar)) {
+        lAchou = true
+      }
+      
+    }
+
+    if(!lAchou){
+      this.poNotification.warning("Registro não encontrado, verifique se o código " + this.CodBar + " está correto!");
+      return
+    }
+
+    this.httpService.getEntradaSaida(1, parseInt(this.recno), parseInt(this.CodBar), ).subscribe(dados => {
+      this.itens2 = [];
+      this.itens2 = dados
+      this.items2 = this.itens2      
+     .map( (data: {   recno: any, dataEntrada: any}) => {
+        return {          
+          Recno: data.recno,
+        }
+      });
+      if(this.items2.length > 0){
+        this.poNotification.warning("Registro de entrada já gravado, verifique se o código " + this.CodBar + " está correto!" );
+        this.CodBar = "";  
+        return
+      }
+
+      this.now = new Date();
+      this.mapa.RecnoCrianca = parseInt(this.CodBar);
+      this.mapa.RecnoCabecalhoReuniao = parseInt(this.recno);
+      this.mapa.DataEntrada = datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', 'pt-BR')    
+
+      this.CodBar = "";    
+      
+      this.httpService.postReuniaoEntradaSaida(this.mapa).subscribe(() => {
+        this.lOk = true
+        this.CodBar = undefined;
+        this.poNotification.success("Registro " + this.mapa.RecnoCrianca + " incluído com sucesso!");
+      })
+
+      const sleep = (milliseconds: any) => {
+        return new Promise((resolve) => setTimeout(resolve, milliseconds));
+      };
+
+      // Aguarda 5 segundos
+      sleep(5000).then(() => {
+        if (!this.lOk) {
+          this.poNotification.error("Erro na inclusão!");
+        }
+      });
+
+    });
+
+  } 
+  
+  GuardaSelecao(event: any){
+    this.mapa.RecnoCrianca = event.Recno;
+  } 
+
+  entradaManual(){
+    this.CodBar = this.mapa.RecnoCrianca;
+    this.GravaSaida(this.CodBar);
+    /*
+    const datePipe = new DatePipe('en-US');
+    this.now = new Date();
+    this.mapa.RecnoCabecalhoReuniao = parseInt(this.recno);
+    this.mapa.DataEntrada = datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', 'pt-BR')
+    
+    this.httpService.postReuniaoEntradaSaida(this.mapa).subscribe(() => {
+      this.lOk = true
+      this.poNotification.success("Registro incluído com sucesso!"); 
+    })
+
+    const sleep = (milliseconds: any) => {
+      return new Promise((resolve) => setTimeout(resolve, milliseconds));
+    };
+
+    // Aguarda 5 segundos
+    sleep(5000).then(() => {
+      if (!this.lOk) {
+        this.poNotification.error("Erro na inclusão!");
+      }
+    });
+    */
 
   }
 
@@ -143,14 +229,9 @@ export class EntradaComponent implements OnInit {
 
   public actions: Array<PoPageAction> = [
     { label: 'Confirmar', action: this.entradaManual.bind(this), disabled: this.lEntradaManual, visible: false }
-  ];
+  ];  
 
-  entradaManual(){
-
-  }
-
-  SelecionaAba(nOpc: number){
-  
+  SelecionaAba(nOpc: number){ 
     
     if (nOpc == 1) {
       this.actions = [
