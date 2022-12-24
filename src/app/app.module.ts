@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { EntradaComponent } from './entrada/entrada.component';
 import { FormsModule } from '@angular/forms';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -21,7 +22,7 @@ import { RelatoriosComponent } from './relatorios/relatorios.component';
     HomeComponent,
     EntradaComponent,
     RelatoriosComponent,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -30,7 +31,8 @@ import { RelatoriosComponent } from './relatorios/relatorios.component';
     PoModule,
     FormsModule,
     RouterModule.forRoot([]),
-    PoTemplatesModule
+    PoTemplatesModule,
+    BrowserAnimationsModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

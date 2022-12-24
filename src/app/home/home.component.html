@@ -7,6 +7,7 @@
   <div class="po-row">
     <po-slide
       [p-height]="370"
+      [p-interval]="5000"
       [p-slides]="sampleItems">
       <ng-template p-slide-content-template let-item>
         <div class="sample-background-image"
@@ -15,8 +16,7 @@
           [style.height.%]="100">
           <div class="po-row">
             <div class="po-offset-sm-1 po-offset-md-1 po-offset-lg-1 po-offset-xl-1 po-lg-7 po-sm-10 po-mt-4 po-mb-4 po-p-2"
-              [style.background]="'white'">
-              <div class="po-font-text">{{item.date}} por {{item.author}}</div>
+              [style.background]="'#DCDCDC'">
               <div class="po-font-display">{{item.title}}</div>
               <po-divider></po-divider>
               <div class="po-font-text-large-bold po-mb-3">{{item.description}}</div>
