@@ -1,0 +1,75 @@
+<po-page-list
+  p-show-more-disabled="true"
+  p-title= "Saida de crianças"
+  [p-breadcrumb]="breadcrumb"
+  [p-disclaimer-group]="disclaimerGroup"
+  [p-actions]="actions"
+  [p-filter]="filterSettings">
+
+  <po-tabs>
+    <po-tab
+      [p-active]="lTeste"
+      (p-click)="SelecionaAba(1)"
+      p-label="Ler Código de Barras">
+      <div class="po-row">
+
+        <po-input
+          class="po-md-8"
+          [(ngModel)]="CodBar"
+          name="CodBar"
+          p-label='Digite o código de barras.'
+          p-clean="true"
+          p-required="true"
+          (keyup.Enter)="GravaSaida($event)"
+          p-placeholder="Digite o código de barras ou faça a leitura via leitor.">
+        </po-input>
+
+        <po-button class="po-row"
+          id="btngerar"
+          class="po-md-2"
+          p-label="Confirmar"
+          p-icon="po-icon po-icon-plus"
+          (p-click)="GravaSaida($event)">
+        </po-button>
+
+        <po-button
+          id="btngerar"
+          class="po-md-2"
+          p-label="Voltar"
+          p-type="primary"
+          p-icon="po-icon po-icon-exit"
+          [p-small]="true"
+          (p-click)="Cancel()">
+        </po-button>
+
+
+
+      </div>
+
+      <po-image
+        [p-src]="urlImagem"
+        p-alt="teste de imagem"
+        [p-height]="300">
+      </po-image>
+    </po-tab>
+    <po-tab
+      p-label="Saída manual"
+      (p-click)="SelecionaAba(2)">
+      <po-container>
+        <po-table
+          [p-selectable]="true"
+          (p-selected)="GuardaSelecao($event)"
+          [p-hide-select-all]="true"
+          [p-actions-right]="true"
+          [p-loading]="isLoading"
+          [p-single-select]="true"
+          [p-columns]="columns"
+          [p-actions-right]
+          [p-items]="itemsFiltered"
+          [p-sort]="true">
+        </po-table>
+      </po-container>
+    </po-tab>
+  </po-tabs>
+
+</po-page-list>

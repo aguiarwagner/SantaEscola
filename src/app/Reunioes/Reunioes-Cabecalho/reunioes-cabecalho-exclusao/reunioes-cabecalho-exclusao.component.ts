@@ -5,16 +5,17 @@ import { HttpService } from 'src/app/http.service';
 import { Mapa } from 'src/app/Shared/mapa';
 
 @Component({
-  selector: 'app-cadastro-exclusao',
-  templateUrl: './cadastro-exclusao.component.html',
-  styleUrls: ['./cadastro-exclusao.component.css']
+  selector: 'app-reunioes-cabecalho-exclusao',
+  templateUrl: './reunioes-cabecalho-exclusao.component.html',
+  styleUrls: ['./reunioes-cabecalho-exclusao.component.css']
 })
-export class CadastroExclusaoComponent implements OnInit {
+export class ReunioesCabecalhoExclusaoComponent implements OnInit {
   mapa: Mapa = new Mapa();
+  lOk: boolean = true;
+  idReuniao: any = "";
   items: Array<any>;
   itens: any = [];
-  id: any = "";
-  lOk: boolean = true;
+
   constructor(
     public poNotification: PoNotificationService,
     private router: Router,
@@ -23,24 +24,19 @@ export class CadastroExclusaoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.GetCriancas();
+    this.getReunioesId();
   }
 
-  GetCriancas(){
-    this.id =  this.activatedRoute.snapshot.paramMap.get('id');
-
-    this.httpService.getCriancasId(parseInt(this.id)).subscribe((mapa: Mapa) => {
+  getReunioesId(){
+    this.idReuniao =  this.activatedRoute.snapshot.paramMap.get('id');
+    this.httpService.getReunioesId(parseInt(this.idReuniao)).subscribe((mapa: Mapa) => {
       this.mapa = mapa;
     });
-  }
 
-  Cancel(){
-    this.router.navigate(['cadastro']);
   }
 
   Grava(){
 
-    /*
     this.httpService.getEntradaSaida(2, parseInt(this.idReuniao), 0, ).subscribe(dados => {
       this.itens = [];
       this.itens = dados
@@ -57,11 +53,10 @@ export class CadastroExclusaoComponent implements OnInit {
         this.poNotification.information("A reunião já teve entrada e saída gravadas e não poderá ser excluída!");
         return
       }
-      */
-      debugger
-      this.httpService.deleteCriancas(this.id, this.mapa).subscribe(() => {
+
+      this.httpService.deleteReuniao(this.idReuniao, this.mapa).subscribe(() => {
         this.lOk = true;
-        this.router.navigate(["/cadastro"]);
+        this.router.navigate(["/reunioes"]);
         this.poNotification.success("Registro excluído com sucesso!");
       })
 
@@ -76,6 +71,24 @@ export class CadastroExclusaoComponent implements OnInit {
         }
       });
 
+    });
+
+
+
+
+    //this.httpService.postReuniao(this.mapa).subscribe(() => {
+    //  this.lOk = true
+    //  this.router.navigate(["/reunioes"]);
+    //  this.poNotification.success("Registro incluído com sucesso!");
+    //})
+
+
+
   }
+
+  Cancel(){
+    this.router.navigate(['reunioes']);
+  }
+
 
 }

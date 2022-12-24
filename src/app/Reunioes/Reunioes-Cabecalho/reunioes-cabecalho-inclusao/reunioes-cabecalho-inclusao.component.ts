@@ -5,13 +5,14 @@ import { HttpService } from 'src/app/http.service';
 import { Mapa } from 'src/app/Shared/mapa';
 
 @Component({
-  selector: 'app-cadastro-inclusao',
-  templateUrl: './cadastro-inclusao.component.html',
-  styleUrls: ['./cadastro-inclusao.component.css']
+  selector: 'app-reunioes-cabecalho-inclusao',
+  templateUrl: './reunioes-cabecalho-inclusao.component.html',
+  styleUrls: ['./reunioes-cabecalho-inclusao.component.css']
 })
-export class CadastroInclusaoComponent implements OnInit {
+export class ReunioesCabecalhoInclusaoComponent implements OnInit {
   mapa: Mapa = new Mapa();
   lOk: boolean = true;
+  dataReuniao = new Date();
 
   constructor(
     public poNotification: PoNotificationService,
@@ -19,28 +20,29 @@ export class CadastroInclusaoComponent implements OnInit {
     private httpService: HttpService,
   ) { }
 
-  ngOnInit(): void {
-  }
-
-  Cancel(){
-    this.router.navigate(['cadastro']);
+  ngOnInit(): void {    
+    this.dataReuniao = new Date();
   }
 
   Grava(){
-    if (this.mapa.NomeCrianca == undefined || this.mapa.nomeCrianca == "") {
-      this.poNotification.success("Preencha o nome da criança!");
-      return;
-    }
-    if (this.mapa.dataNascimento == undefined) {
-      this.poNotification.success("Preencha a data de nascimento!");
-      return;
+
+    if (this.dataReuniao == undefined) {
+      this.poNotification.information("Preencha a data da reunião!");
+      return      
     }
 
-    this.httpService.postCriancas(this.mapa).subscribe(() => {
+    this.mapa.DataReuniao = this.dataReuniao.toString();
+    this.mapa.dataReuniao = this.dataReuniao.toString();
+    this.mapa.observacoes = this.mapa.Observacoes;
+    this.mapa.assuntoAbordado = this.mapa.AssuntoAbordado;
+    
+
+    this.httpService.postReuniao(this.mapa).subscribe(() => {
       this.lOk = true
-      this.router.navigate(["/cadastro"]);
+      this.router.navigate(["/reunioes"]);
       this.poNotification.success("Registro incluído com sucesso!");
     })
+    
     const sleep = (milliseconds: any) => {
       return new Promise((resolve) => setTimeout(resolve, milliseconds));
     };
@@ -52,6 +54,10 @@ export class CadastroInclusaoComponent implements OnInit {
       }
     });
 
+  }
+
+  Cancel(){
+    this.router.navigate(['reunioes']);
   }
 
 }

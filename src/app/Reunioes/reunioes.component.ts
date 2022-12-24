@@ -5,15 +5,15 @@ import { HttpService } from '../http.service';
 import { Mapa } from '../Shared/mapa';
 
 @Component({
-  selector: 'app-cadastro',
-  templateUrl: './cadastro.component.html',
-  styleUrls: ['./cadastro.component.css']
+  selector: 'app-reunioes',
+  templateUrl: './reunioes.component.html',
+  styleUrls: ['./reunioes.component.css']
 })
-export class CadastroComponent implements OnInit {
+export class ReunioesComponent implements OnInit {
   mapa: Mapa = new Mapa();
   columns: Array<PoTableColumn> = [];
   loadButton = false;
-  labelButton = "Cadastrar novas Crianças";
+  labelButton = "Cadastrar nova reunião";
   isLoading: boolean = true;
   tableActions: Array<PoPageAction>;
   pageActions: Array<PoPageAction>;
@@ -32,19 +32,20 @@ export class CadastroComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.GetCriancas()
-
+    this.getReunioes();
     this.columns = [
-      { property: 'NomeCrianca', label: 'Nome Criança', type: 'string', width: '40%'},
-      { property: 'DataNascimento', label: 'Data Nascimento', type: 'string', width: '30%'},
-      { property: 'Endereco', label: 'Endereço', type: 'string', width: '20%'},
-      { property: 'Bairro', label: 'Bairro', type: 'string', width: '10%'}
+      { property: 'DataReuniao', label: 'Data da reunião', type: 'string', width: '10%'},
+      { property: 'AssuntoAbordado', label: 'Assunto abordado', type: 'string', width: '70%'},
+      { property: 'Observacoes', label: 'Obsevações', type: 'string', width: '20%'}
 
     ];
     this.tableActions = [
-      { action: this.visualCriancas.bind(this), label: "Visualizar" },
-      { action: this.alteraCriancas.bind(this), label: 'Alterar' },
-      { action: this.excluirCriancas.bind(this), label: 'Excluir' }
+
+      { action: this.entradaReuniao.bind(this), label: 'Entrada' },
+      { action: this.saidaReuniao.bind(this), label: 'Saída' },
+      { action: this.visualReuniao.bind(this), label: "Visualizar" },
+      { action: this.alteraReuniao.bind(this), label: 'Alterar' },
+      { action: this.excluirReuniao.bind(this), label: 'Excluir' }
 
     ]
 
@@ -55,20 +56,29 @@ export class CadastroComponent implements OnInit {
     };
   }
 
+  getReunioes(){
 
-  GetCriancas(){
-    this.httpService.getCriancas().subscribe(dados => {
+    this.httpService.getReunioes().subscribe(dados => {
       this.itens = [];
       this.itens = dados
       this.items = this.itens
-     .map( (data: { nomeCrianca: any; dataNascimento: any; endereco: any; bairro: any;  recno: any}) => {
+     .map( (data: { dataReuniao: any; assuntoAbordado: any; observacoes: any;recno: any}) => {
         return {
-          NomeCrianca: data.nomeCrianca,
-          DataNascimento: data.dataNascimento.substring(8, 10) + "/" + data.dataNascimento.substring(5, 7) + "/" + data.dataNascimento.substring(0, 4),
-          Endereco: data.endereco,
-          Bairro: data.bairro,
+          DataReuniao: data.dataReuniao.substring(8, 10) + "/" + data.dataReuniao.substring(5, 7) + "/" + data.dataReuniao.substring(0, 4),
+          AssuntoAbordado: data.assuntoAbordado, //.substring(8, 10) + "/" + data.assuntoAbordado.substring(5, 7) + "/" + data.assuntoAbordado.substring(0, 4),
+          Observacoes: data.observacoes,
           Recno: data.recno
         }
+    });
+
+    this.items.sort(function (a, b) {
+      if (a.Recno > b.Recno) {
+       return -1;
+      }
+      if (a.Recno < b.Recno) {
+       return 1;
+      }
+      return 0;
     });
 
     this.itemsFiltered = [...this.items];
@@ -77,6 +87,32 @@ export class CadastroComponent implements OnInit {
     });
 
   }
+
+  Incluir(){
+    this.router.navigate(['reunioes/inclusaoreuniao']);
+
+  }
+
+  visualReuniao(mapa: any){
+    this.router.navigate(['reunioes/visualizareuniao', mapa.Recno]);
+  }
+
+  alteraReuniao(mapa: any){
+    this.router.navigate(['reunioes/alteracaoreuniao', mapa.Recno]);
+  }
+
+  entradaReuniao(mapa: any){
+    this.router.navigate(['reunioes/entradareuniao', mapa.Recno]);
+  }
+
+  saidaReuniao(mapa: any){
+    this.router.navigate(['reunioes/saidareuniao', mapa.Recno]);
+  }
+
+  excluirReuniao(mapa: any){
+    this.router.navigate(['reunioes/exclusaoreuniao', mapa.Recno]);
+  }
+
 
   //Filtro
   public readonly filterSettings: PoPageFilter = {
@@ -131,20 +167,5 @@ export class CadastroComponent implements OnInit {
       this.disclaimerGroup.disclaimers = [];
     }
   }
-
-  Incluir(){
-    this.router.navigate(['cadastro/inclusao']);
-  }
-  alteraCriancas(mapa: any){
-    this.router.navigate(['cadastro/alteracao', mapa.Recno]);
-  }
-  excluirCriancas(mapa: any){
-    this.router.navigate(['cadastro/exclusao', mapa.Recno]);
-  }
-  visualCriancas(mapa: any){
-    this.router.navigate(['cadastro/visualizacao', mapa.Recno]);
-  }
-
-
 
 }

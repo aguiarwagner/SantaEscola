@@ -1,0 +1,43 @@
+
+  <po-page-list
+
+  p-show-more-disabled="true"
+  p-title= "Entrada e Saída de Reuniões"
+  [p-actions]="pageActions"
+  [p-breadcrumb]="breadcrumb"
+  [p-disclaimer-group]="disclaimerGroup"
+  [p-filter]="filterSettings">
+
+  <po-container >
+  <po-button
+    id="btngerar"
+    class="po-md-12"
+    p-type="primary"
+    p-icon="po-icon po-icon-plus"
+    [p-small]="true"
+    (p-click)= "Incluir()"
+    [p-loading]="loadButton"
+    [p-label]="labelButton"
+    p-primary="true">
+  </po-button>
+</po-container>
+
+<po-container>
+  <po-table
+    [p-selectable]="true"
+    [p-hide-select-all]="false"
+    [p-selectable]="false"
+    [p-actions-right]="true"
+    [p-loading]="isLoading"
+    [p-actions]="tableActions"
+    [p-columns]="columns"
+    [p-actions-right]
+    [p-items]="itemsFiltered"
+    [p-sort]="true">
+  </po-table>
+
+</po-container>
+</po-page-list>
+
+
+

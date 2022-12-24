@@ -34,8 +34,16 @@ export class Mapa {
   restricoesAlimentares: string = "";
   indicacoesMedicas: string = "";
   observacoes: string = "";
+  DataReuniao: string = "";
+  dataReuniao: string = "";
+  AssuntoAbordado: string = "";
+  assuntoAbordado: string = "";
   recno: number;
   Recno: number;
+  RecnoCrianca: number;
+  RecnoCabecalhoReuniao: number;
+  DataEntrada: any;
+  DataSaida: any;
 
 
   constructor(values: Object = {}) {

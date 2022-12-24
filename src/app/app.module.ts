@@ -11,8 +11,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { EntradaComponent } from './entrada/entrada.component';
 import { FormsModule } from '@angular/forms';
-import { CadastroComponent } from './cadastro/cadastro.component';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
+
 
 
 @NgModule({
@@ -20,7 +20,8 @@ import { RelatoriosComponent } from './relatorios/relatorios.component';
     AppComponent,
     HomeComponent,
     EntradaComponent,
-    RelatoriosComponent
+    RelatoriosComponent,
+    
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,72 @@
+<po-page-default p-title="Visualização de reunião">
+
+  <div class="po-md-12">
+    <div class="po-md-12">
+      <form #formReuniaoinclusao="ngForm">
+        <po-container>         
+
+          <po-datepicker
+            class="po-md-2"
+            name="dataReuniao"
+            [(ngModel)]="mapa.dataReuniao"
+            p-label="Data da reuniao">
+          </po-datepicker>         
+
+          <po-textarea
+            class="po-md-12"
+            [(ngModel)]="mapa.assuntoAbordado"
+            name="mapa.AssuntoAbordado"
+            p-label='Assuntos abordados.'
+            p-clean="true"
+            [p-maxlength]="500"
+            p-placeholder="Insira o assunto abordado">
+          </po-textarea>
+
+          <po-textarea
+            class="po-md-12"
+            [(ngModel)]="mapa.observacoes"
+            name="Observacoes"
+            p-label='Observações'
+            p-clean="true"
+            [p-maxlength]="500"
+            p-placeholder="Insira as observações">
+          </po-textarea>
+        </po-container>
+
+        <po-container>
+          <po-table
+            [p-selectable]="true"
+            [p-hide-select-all]="false"
+            [p-selectable]="false"
+            [p-actions-right]="true"
+            [p-loading]="isLoading"            
+            [p-columns]="columns"
+            [p-actions-right]
+            [p-items]="itemsFiltered"
+            [p-sort]="true">
+          </po-table>
+        </po-container>        
+
+        <po-container>
+          <div class="po-row">            
+            <po-button
+              class="po-md-12"
+              p-label="Voltar"
+              p-type="primary"
+              p-icon="po-icon po-icon-exit"
+              [p-small]="true"
+              (p-click)="Cancel()"
+            >
+            </po-button>
+          </div>
+        </po-container>
+      </form>
+
+    </div>
+  </div>
+
+
+
+</po-page-default>
+
+
