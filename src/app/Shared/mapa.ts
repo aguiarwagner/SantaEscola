@@ -44,6 +44,7 @@ export class Mapa {
   RecnoCabecalhoReuniao: number;
   DataEntrada: any;
   DataSaida: any;
+  comunCongregacao: string = "";
 
 
   constructor(values: Object = {}) {

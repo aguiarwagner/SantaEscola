@@ -10,7 +10,7 @@
             name="NomeCrianca"
             p-label='Nome da Criança'
             p-clean="true"
-            p-disabled="true"
+            p-readonly="true"
             p-placeholder="Insira o nome da Criança">
           </po-input>
 
@@ -18,7 +18,7 @@
             class="po-md-2"
             name="DataNascimento"
             [(ngModel)]="mapa.dataNascimento"
-            p-disabled="true"
+            p-readonly="true"
             p-label="Data de Nascimento">
           </po-datepicker>
 
@@ -27,32 +27,45 @@
             [(ngModel)]="mapa.endereco"
             name="Endereco"
             p-label='Endereço'
-            p-disabled="true"
+            p-readonly="true"
             p-clean="true"
             p-placeholder="Insira o endereço">
           </po-input>
 
           <po-input
-            class="po-md-4"
+            class="po-md-5"
             [(ngModel)]="mapa.bairro"
             name="Bairro"
             p-label='Bairro'
-            p-disabled="true"
+            p-readonly="true"
             p-clean="true"
             p-placeholder="Insira o Bairro ">
           </po-input>
 
           <po-input
-            class="po-md-4"
+            class="po-md-3"
             [(ngModel)]="mapa.cep"
             name="CEP"
             p-label='CEP'
-            p-disabled="true"
+            p-readonly="true"
             p-clean="true"
             p-placeholder="Insira o CEP"
             p-mask="99999-999">
           </po-input>
 
+          <po-combo
+            id="comunCongregacao"
+            class="po-md-4"
+            [p-filter-mode]="contains"
+            name="comunCongregacao"
+            p-readonly="true"
+            [ngModel]="mapa.comunCongregacao"
+            (ngModelChange)="mapa.comunCongregacao = $event"
+            p-label="Comum Congregação"
+            [p-options]="SelCongregacao"
+            p-placeholder="Selecione a Comun Congregação">
+          </po-combo>
+          <!--
           <po-input
             class="po-md-4"
             [(ngModel)]="mapa.telCrianca"
@@ -63,6 +76,7 @@
             p-placeholder="Insira o telefeone da Criança"
             p-mask="(99) 99999-9999">
           </po-input>
+        -->
 
           <po-input
             class="po-md-8"
@@ -70,7 +84,7 @@
             name="NomePai"
             p-label="Nome do Pai / Responsável"
             p-clean="true"
-            p-disabled="true"
+            p-readonly="true"
             p-placeholder="Insira o nome do pai ou responsável">
           </po-input>
 
@@ -78,9 +92,9 @@
             class="po-md-4"
             [(ngModel)]="mapa.telPai"
             name="TelPai"
-            p-label="Telefone do Pai ou responsável"
+            p-label="Telefone do Pai / responsável"
             p-clean="true"
-            p-disabled="true"
+            p-readonly="true"
             p-placeholder="Insira o telefeone do pai ou responsável"
             p-mask="(99) 99999-9999">
           </po-input>
@@ -91,7 +105,7 @@
             name="NomeMae"
             p-label="Nome da mãe"
             p-clean="true"
-            p-disabled="true"
+            p-readonly="true"
             p-placeholder="Insira o mãe da mãe">
           </po-input>
 
@@ -101,7 +115,7 @@
             name="TelMae"
             p-label='Telefone da mãe'
             p-clean="true"
-            p-disabled="true"
+            p-readonly="true"
             p-placeholder="Insira o telefone da mãe"
             p-mask="(99) 99999-9999">
           </po-input>
@@ -111,7 +125,7 @@
             [(ngModel)]="mapa.email"
             name="Email"
             p-label='E-mail'
-            p-disabled="true"
+            p-readonly="true"
             p-clean="true"
             p-placeholder="Insira o e-mail">
           </po-input>
@@ -122,7 +136,7 @@
             name="RestricoesAlimentares"
             p-label='Restrições alimentares.'
             p-clean="true"
-            [p-disabled]="true"
+            [p-readonly]="true"
             [p-maxlength]="500"
             p-placeholder="Insira as restrições alimentares caso possua">
           </po-textarea>
@@ -134,7 +148,7 @@
             p-label='Indicações Médicas'
             p-clean="true"
             [p-maxlength]="500"
-            [p-disabled]="true"
+            [p-readonly]="true"
             p-placeholder="Insira as indicações médicas caso possua">
           </po-textarea>
 
@@ -144,7 +158,7 @@
             name="Observacoes"
             p-label='Observações'
             p-clean="true"
-            [p-disabled]="true"
+            [p-readonly]="true"
             [p-maxlength]="500"
             p-placeholder="Insira as observações">
           </po-textarea>

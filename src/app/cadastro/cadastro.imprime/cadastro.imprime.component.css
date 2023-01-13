@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "BarcodeInterleaved2of5";
+
+}
+
+.barcodei2of5 {
+   font-family: "BarcodeInterleaved2of5";
+   font-size: 200px;
+}
+
+.logotipo {
+  width: 100%;
+  height: 100%;
+  margin: 0cm;
+  display: flex;
+  justify-content: center;
+}
+
+.texto {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.container {
+  width: 13%;
+  height: 100%;
+  display: row;
+  justify-content: right;
+  align-items: center;
+  }

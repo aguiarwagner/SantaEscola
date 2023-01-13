@@ -46,11 +46,11 @@ export class ReunioesItensSaidaComponent implements OnInit {
 
     this.columns = [
       { property: 'Recno', label: 'Código barras', type: 'string', width: '5%'},
-      { property: 'NomeCrianca', label: 'Nome Criança', type: 'string', width: '40%'},
-      { property: 'DataNascimento', label: 'Data Nascimento', type: 'string', width: '10%'},
-      { property: 'Endereco', label: 'Endereço', type: 'string', width: '25%'},
-      { property: 'Bairro', label: 'Bairro', type: 'string', width: '20%'}
-
+      { property: 'NomeCrianca', label: 'Nome Criança', type: 'string', width: '30%'},
+      { property: 'DataNascimento', label: 'Data Nascimento', type: 'string', width: '5%'},
+      { property: 'nomePai', label: 'Pai / Responsável', type: 'string', width: '20%'},
+      { property: 'nomeMae', label: 'Mãe', type: 'string', width: '20%'},
+      { property: 'comunCongregacao', label: 'Comun Congregação', type: 'string', width: '20%'}
     ];
 
     this.disclaimerGroup = {
@@ -65,13 +65,16 @@ export class ReunioesItensSaidaComponent implements OnInit {
       this.itens = [];
       this.itens = dados
       this.items = this.itens
-     .map( (data: { nomeCrianca: any; dataNascimento: any; endereco: any; bairro: any;  recno: any}) => {
+     .map( (data: { nomeCrianca: any; dataNascimento: any; endereco: any; bairro: any;  recno: any; comunCongregacao: any; nomePai: any; nomeMae: any}) => {
         return {
           NomeCrianca: data.nomeCrianca,
           DataNascimento: data.dataNascimento.substring(8, 10) + "/" + data.dataNascimento.substring(5, 7) + "/" + data.dataNascimento.substring(0, 4),
           Endereco: data.endereco,
           Bairro: data.bairro,
-          Recno: data.recno
+          Recno: data.recno,
+          nomePai: data.nomePai,
+          comunCongregacao: data.comunCongregacao,
+          nomeMae: data.nomeMae
         }
     });
 

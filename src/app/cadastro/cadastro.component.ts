@@ -44,7 +44,8 @@ export class CadastroComponent implements OnInit {
     this.tableActions = [
       { action: this.visualCriancas.bind(this), label: "Visualizar" },
       { action: this.alteraCriancas.bind(this), label: 'Alterar' },
-      { action: this.excluirCriancas.bind(this), label: 'Excluir' }
+      { action: this.excluirCriancas.bind(this), label: 'Excluir' },
+      { action: this.imprimeCriancas.bind(this), label: 'Imprimir' }
 
     ]
 
@@ -143,6 +144,9 @@ export class CadastroComponent implements OnInit {
   }
   visualCriancas(mapa: any){
     this.router.navigate(['cadastro/visualizacao', mapa.Recno]);
+  }
+  imprimeCriancas(mapa: any){
+    this.router.navigate(['cadastro/imprime', mapa.Recno]);
   }
 
 

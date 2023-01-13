@@ -3,33 +3,33 @@
   <div class="po-md-12">
     <div class="po-md-12">
       <form #formReuniaoinclusao="ngForm">
-        <po-container>         
+        <po-container>
 
           <po-datepicker
             class="po-md-2"
             name="dataReuniao"
             [(ngModel)]="dataReuniao"
             p-label="Data da reuniao">
-          </po-datepicker>         
+          </po-datepicker>
 
           <po-textarea
             class="po-md-12"
             [(ngModel)]="mapa.AssuntoAbordado"
             name="mapa.AssuntoAbordado"
-            p-label='Assuntos abordados.'
+            p-label='Tema da aula.'
             p-clean="true"
             [p-maxlength]="500"
-            p-placeholder="Insira o assunto abordado">
+            p-placeholder="Insira o tema da aula">
           </po-textarea>
 
           <po-textarea
             class="po-md-12"
             [(ngModel)]="mapa.Observacoes"
             name="Observacoes"
-            p-label='Observações'
+            p-label='Ocorrências'
             p-clean="true"
             [p-maxlength]="500"
-            p-placeholder="Insira as observações">
+            p-placeholder="Insira as ocorrências">
           </po-textarea>
 
         </po-container>

@@ -33,7 +33,7 @@
           </po-input>
 
           <po-input
-            class="po-md-4"
+            class="po-md-5"
             [(ngModel)]="mapa.bairro"
             name="Bairro"
             p-label='Bairro'
@@ -43,7 +43,7 @@
           </po-input>
 
           <po-input
-            class="po-md-4"
+            class="po-md-3"
             [(ngModel)]="mapa.cep"
             name="CEP"
             p-label='CEP'
@@ -53,6 +53,18 @@
             p-mask="99999-999">
           </po-input>
 
+          <po-combo
+            id="comunCongregacao"
+            class="po-md-4"
+            [p-filter-mode]="contains"
+            name="comunCongregacao"
+            [ngModel]="mapa.comunCongregacao"
+            (ngModelChange)="mapa.comunCongregacao = $event"
+            p-label="Comum Congregação"
+            [p-options]="SelCongregacao"
+            p-placeholder="Selecione a Comun Congregação">
+          </po-combo>
+          <!--
           <po-input
             class="po-md-4"
             [(ngModel)]="mapa.telCrianca"
@@ -63,6 +75,8 @@
             p-placeholder="Insira o telefeone da Criança"
             p-mask="(99) 99999-9999">
           </po-input>
+
+        -->
 
           <po-input
             class="po-md-8"
@@ -78,7 +92,7 @@
             class="po-md-4"
             [(ngModel)]="mapa.telPai"
             name="TelPai"
-            p-label="Telefone do Pai ou responsável"
+            p-label="Telefone do Pai / responsável"
             p-clean="true"
             p-disabled="true"
             p-placeholder="Insira o telefeone do pai ou responsável"

@@ -16,26 +16,24 @@ export class AuthGuard /*implements CanActivate*/ {
   teste(){
     return false;
   }
-  /*async canActivate(
+  async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<Observable<boolean> | boolean> {
       if (!this.authService.isAuthenticated()) {
-        this.authService.login();
         return false;
       }
+      //debugger
       if (this.authService.isTokenExpired()) {
         const isRefreshSuccess = this.authService.refreshToken();
         if (await isRefreshSuccess) {
           return true;
         } else {
-          this.authService.login();
+          location.reload();
           return false;
         }
       }
 
-
-
-      return false;
+      return true;
   }
-  */
+
 }

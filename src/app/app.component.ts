@@ -30,7 +30,7 @@ export class AppComponent {
     { label: 'Cadastro', icon: 'po-icon po-icon-news', link: './cadastro', shortLabel: 'Cadastro' },
   ];
 
-  titleToolbar = 'Santa Escola';
+  titleToolbar = 'Espaço Infantil';
   constructor(private router: Router,
     private _httpClient: HttpClient,
     private httpService: HttpService,

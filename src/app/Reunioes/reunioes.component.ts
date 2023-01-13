@@ -35,8 +35,8 @@ export class ReunioesComponent implements OnInit {
     this.getReunioes();
     this.columns = [
       { property: 'DataReuniao', label: 'Data da reunião', type: 'string', width: '10%'},
-      { property: 'AssuntoAbordado', label: 'Assunto abordado', type: 'string', width: '70%'},
-      { property: 'Observacoes', label: 'Obsevações', type: 'string', width: '20%'}
+      { property: 'AssuntoAbordado', label: 'Tema da Aula', type: 'string', width: '70%'},
+      { property: 'Observacoes', label: 'Ocorrências', type: 'string', width: '20%'}
 
     ];
     this.tableActions = [

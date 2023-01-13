@@ -10,11 +10,12 @@ import { CadastroInclusaoComponent } from './cadastro-inclusao/cadastro-inclusao
 import { CadastroAlteracaoComponent } from './cadastro-alteracao/cadastro-alteracao.component';
 import { CadastroExclusaoComponent } from './cadastro-exclusao/cadastro-exclusao.component';
 import { CadastroVisualizacaoComponent } from './cadastro-visualizacao/cadastro-visualizacao.component';
+import { CadastroImprimeComponent } from './cadastro.imprime/cadastro.imprime.component';
 
 
 
 @NgModule({
-  declarations: [CadastroComponent, CadastroInclusaoComponent, CadastroAlteracaoComponent, CadastroExclusaoComponent, CadastroVisualizacaoComponent],
+  declarations: [CadastroComponent, CadastroInclusaoComponent, CadastroAlteracaoComponent, CadastroExclusaoComponent, CadastroVisualizacaoComponent, CadastroImprimeComponent],
   imports: [
     CommonModule,
     CadastroRoutingModule,
