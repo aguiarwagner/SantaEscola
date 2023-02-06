@@ -13,9 +13,9 @@ import { Router } from '@angular/router';
 export class AuthService {
   public mostraMenu = false;
   //Ambietne de teste
-  //private url = 'https://tdi.customerfi.com/cloudpass/launchpad/launchApp/c35d61bb2d384094915f1888095eba09/9lndgj53tx3zysjx1410282663331' + 'auth';
+
   //Ambiente de produção.
-  private url = 'https://totvs.fluigidentity.com/cloudpass/launchpad/launchApp/5da6555558614476b267c17ea4c3b83b/zf0y84vo717g8hjx' + 'auth';
+  private url = '';
 
   public AccessTokenKey = 'access_token';
   public RefreshTokenKey = 'refresh_token';
@@ -92,6 +92,9 @@ export class AuthService {
       throw new Error('Não é possivel renovar um token inexistente');
 
     const jwt = this.getJwt();
+    if(Date.now() >= jwt.exp * 1000){
+      localStorage.setItem(this.AccessTokenKey, JSON.stringify(""));
+    }
     return Date.now() >= jwt.exp * 1000;
   }
 

@@ -28,6 +28,7 @@ export class AppComponent {
     //{ label: 'Entrada', icon: 'po-icon po-icon-user-add', link: './entrada', shortLabel: 'Entrada' },
     { label: 'Reuniões', icon: 'po-icon po-icon-user-add', link: './reunioes', shortLabel: 'Reuniões' },
     { label: 'Cadastro', icon: 'po-icon po-icon-news', link: './cadastro', shortLabel: 'Cadastro' },
+    { label: 'Relatórios', icon: 'po-icon po-icon-news', link: './relatorios', shortLabel: 'Relatórios' },
   ];
 
   titleToolbar = 'Espaço Infantil';

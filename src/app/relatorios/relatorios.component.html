@@ -1,1 +1,96 @@
-<p>relatorios works!</p>
+<po-page-list
+  p-show-more-disabled="true"
+  p-title= "Relatório de Frequência"
+  [p-actions]="pageActions"
+  [p-breadcrumb]="breadcrumb"
+  [p-disclaimer-group]="disclaimerGroup"
+  [p-filter]="filterSettings">
+  <div class="po-row">
+    <div class="po-md-12">
+        <form #formReuniaoinclusao="ngForm">
+          <po-container>
+
+            <po-datepicker
+              class="po-md-3"
+              name="startDate"
+              [(ngModel)]="dataIni"
+              p-label="Data Inicial">
+            </po-datepicker>
+
+            <po-datepicker
+              class="po-md-3"
+              name="endDate"
+              [(ngModel)]="dataFim"
+              p-label="Data Final">
+            </po-datepicker>
+
+            <po-button
+              id="btngerar"
+              class="po-md-6"
+              p-type="primary"
+              p-icon="po-icon po-icon-search"
+              [p-small]="true"
+              (p-click)= "Buscar()"
+              [p-loading]="loadButton"
+              [p-label]="labelButton"
+              p-primary="true">
+            </po-button>
+
+          </po-container>
+
+        </form>
+
+        <po-container>
+          <po-table
+            [p-selectable]="true"
+            [p-hide-select-all]="false"
+            [p-selectable]="false"
+            [p-actions-right]="true"
+            [p-loading]="isLoading"
+            [p-columns]="columns"
+            [p-actions-right]
+            [p-items]="itemsFiltered"
+            [p-sort]="true">
+          </po-table>
+
+        </po-container>
+
+      </div>
+  </div>
+
+  <po-chart
+    class="po-md-12 po-mt-2"
+    p-title="Frequência nos últimos 6 meses"
+    [p-height]="816"
+    [p-categories]="itemsCriancas"
+    [p-series]="items6Meses"
+    [p-type]="consumptionPerCapitaType"
+    [p-options]="OptionsFequencia"
+    >
+  </po-chart>
+
+  <po-modal #detailsModal
+    p-click-out="true"
+    p-size="auto"
+    p-title="{{ title }}">
+
+    <po-container>
+      <po-table
+        [p-selectable]="true"
+        [p-hide-select-all]="false"
+        [p-selectable]="false"
+        [p-actions-right]="true"
+        [p-loading]="isLoading"
+        [p-columns]="columns2"
+        [p-actions-right]
+        [p-items]="items3"
+        [p-sort]="true">
+      </po-table>
+
+    </po-container>
+
+  </po-modal>
+
+
+
+</po-page-list>

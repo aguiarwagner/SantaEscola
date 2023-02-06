@@ -46,7 +46,7 @@ export class CadastroImprimeComponent implements OnInit {
       background: 'rgba(0,0,0,0)',
       font: 'monospace',
       fontOptions: 'bold',
-      fontSize: 12,
+      fontSize: 16,
       lineColor: 'black',
       margin: 2 * this.px2mmFactor, // 5mm
       textMargin: 2 * this.px2mmFactor, // 2mm

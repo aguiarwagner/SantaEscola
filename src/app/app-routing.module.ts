@@ -15,6 +15,7 @@ const routes: Routes = [
     //{ path: 'cadastro', component: CadastroComponent},
     { path: 'cadastro', loadChildren: () => import('./cadastro/cadastro.module').then(m => m.CadastroModule), canActivate: [AuthGuard]},
     { path: 'reunioes', loadChildren: () => import('./Reunioes/reunioes.module').then(m => m.ReunioesModule), canActivate: [AuthGuard]},
+    { path: 'relatorios', loadChildren: () => import('./relatorios/relatorios.module').then(m => m.RelatoriosModule), canActivate: [AuthGuard]},
 
 ];
 

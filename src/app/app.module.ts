@@ -11,7 +11,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { EntradaComponent } from './entrada/entrada.component';
 import { FormsModule } from '@angular/forms';
-import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -21,9 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     HomeComponent,
     EntradaComponent,
-    RelatoriosComponent,
-
-  ],
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,

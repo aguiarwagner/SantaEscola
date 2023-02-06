@@ -22,15 +22,17 @@ export class AuthGuard /*implements CanActivate*/ {
       if (!this.authService.isAuthenticated()) {
         return false;
       }
-      //debugger
+
       if (this.authService.isTokenExpired()) {
-        const isRefreshSuccess = this.authService.refreshToken();
-        if (await isRefreshSuccess) {
-          return true;
-        } else {
-          location.reload();
-          return false;
-        }
+        this.router.navigate(['']);
+        location.reload();
+        return false;
+        //if (await isRefreshSuccess) {
+        //  return true;
+        //} else {
+        //  location.reload();
+        //  return false;
+        //}
       }
 
       return true;

@@ -15,6 +15,7 @@ export class HttpService {
   urlApiReunioes = 'http://localhost:84/api/CabecalhoReuniao';
   urlApiReunioesentradaSaida = 'http://localhost:84/api/EntradaSaidaReuniao';
   urlApiEntradaSaida = 'http://localhost:84/api/EntradaSaida';
+  urlApiRelatorio = 'http://localhost:84/api/Relatorios';
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -200,6 +201,17 @@ export class HttpService {
       })
 
     return this.http.get(this.urlApiEntradaSaida + '/' + id + '?idReuniao=' + idReuniao + '&idCrianca=' + idCrianca ,  { headers: headers });
+
+  }
+
+  getRelatorios(id: number, dataIni: string, dataFim: string): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+      })
+
+    return this.http.get(this.urlApiRelatorio + '/' + id + '?dataIni=' + dataIni + '&dataFim=' + dataFim,  { headers: headers });
 
   }
 

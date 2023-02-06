@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoBreadcrumb, PoDisclaimer, PoDisclaimerGroup, PoNotificationService, PoPageAction, PoPageFilter, PoTableColumn } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoDisclaimer, PoDisclaimerGroup, PoNotificationService, PoPageAction, PoPageFilter, PoSelectOption, PoTableColumn } from '@po-ui/ng-components';
 import { HttpService } from '../http.service';
 import { Mapa } from '../Shared/mapa';
 
@@ -24,7 +24,41 @@ export class EntradaComponent implements OnInit {
   lControlFilter: boolean = false;
   private disclaimers: Array<PoDisclaimer> = [];
   lEntradaManual: boolean = false;
-  
+
+  cProduto = "Selecione o produto"
+  descricaoProduto: string = "";
+  descprodAlteracao: string = "";
+  descprod2: string = "";
+  dataEntrada = new Date();
+  now: Date | undefined;
+  valorUnitario: number = 0;
+  nItemAtu: number = 0;
+  valunitAltera: number = 0;
+  quantidade: number = 0;
+  quantidadeAltera: number = 0;
+  numeroNF: number = 0;
+  serieNF: number = 0;
+  valorTotal: number = 0;
+  valorTotalAltera: number = 0;
+  recno: number = 0;
+  item: number = 0;
+  recnoFornecedor: number = 0;
+  lOk: boolean = false;
+  laltera: boolean = false;
+  quickSearchWidth: number = 3;
+  cNome: string = "";
+  SelFornec: Array<PoSelectOption> = [];
+  SelProduto: Array<PoSelectOption> = [];
+  SelProduto2: Array<PoSelectOption> = [];
+  itens_mapa:any = [];
+  items2: Array<any> = [];
+  tableActions: Array<PoPageAction> = [];
+  itemsFiltered2: Array<any> = [];
+  aGrava: any = [];
+  cProdutoSelecionado: string = "";
+  cProdutoAlterado: string = "";
+  lLoadingTable: boolean = false;
+
 
   constructor(
     public poNotification: PoNotificationService,
@@ -36,15 +70,26 @@ export class EntradaComponent implements OnInit {
 
     this.GetCriancas()
 
-    this.columns = [
+    /*this.columns = [
       { property: 'Recno', label: 'Código barras', type: 'string', width: '5%'},
       { property: 'NomeCrianca', label: 'Nome Criança', type: 'string', width: '40%'},
       { property: 'DataNascimento', label: 'Data Nascimento', type: 'string', width: '10%'},
       { property: 'Endereco', label: 'Endereço', type: 'string', width: '25%'},
       { property: 'Bairro', label: 'Bairro', type: 'string', width: '20%'}
 
+    ];*/
+
+    this.columns = [
+      { property: 'item', label: 'Item', type: 'number', width: '5%'},
+      { property: 'descricaoProduto', label: 'produto', type: 'string', width: '30%'},
+      { property: 'recnoProduto', label: 'recno', type: 'string', width: '30%',visible: false},
+      { property: 'quantidade', label: 'Quantidade', type: 'number', width: '20%'},
+      { property: 'valorUnitario', label: 'Valor Unitário', type: 'number', width: '20%'},
+      { property: 'valorTotal', label: 'Total', type: 'number', width: '15%'},
+      { property: 'numeroNF', label: 'numeroNF', type: 'number', width: '15%',visible: false},
+      { property: 'serieNF', label: 'serieNF', type: 'number', width: '15%',visible: false}
     ];
-    
+
     this.disclaimerGroup = {
       title: 'Filters',
       disclaimers: [],
@@ -63,7 +108,7 @@ export class EntradaComponent implements OnInit {
       teste = resposta;
     })
     );
-  }  
+  }
 
   GetCriancas(){
     this.httpService.getCriancas().subscribe(dados => {
@@ -150,20 +195,76 @@ export class EntradaComponent implements OnInit {
   }
 
   SelecionaAba(nOpc: number){
-  
-    
+
+
     if (nOpc == 1) {
       this.actions = [
         { label: 'Confirmar entrada da criança', action: this.entradaManual.bind(this), disabled: this.lEntradaManual, visible: false }
       ];
-      
+
     } else {
       this.actions = [
         { label: 'Confirmar entrada da criança', action: this.entradaManual.bind(this), disabled: false, visible: true }
       ];
-      
+
     }
-   
+
   }
+
+  Adiciona(){
+    this.itemsFiltered = [];
+    this.lLoadingTable = true;
+    if (this.laltera){
+      for(var i = 0; i < this.itemsFiltered.length; i++){
+        if (this.itemsFiltered[i].recnoProduto == this.recno){
+          this.itemsFiltered[i].descricaoProduto =  this.descricaoProduto;
+          this.itemsFiltered[i].item =  this.item;
+          this.itemsFiltered[i].recno =  this.recno;
+          this.itemsFiltered[i].quantidade = this.quantidade;
+          this.itemsFiltered[i].valorUnitario = this.valorUnitario;
+          this.itemsFiltered[i].valorTotal = this.valorTotal;
+          this.itemsFiltered[i].numeroNF = this.numeroNF;
+          this.itemsFiltered[i].serieNF = this.serieNF;
+        }
+      }
+    }else{
+      for(var i = 0; i < this.items.length; i++){
+        if (this.items[i].recno == this.cProdutoSelecionado){
+          this.descricaoProduto = this.items[i].descricaoProduto;
+          this.recno = this.items[i].recno;
+        }
+
+
+      }
+
+
+      this.itemsFiltered2.push({
+        recnoProduto: this.recno,
+        item: this.item += 1,
+        descricaoProduto:this.descricaoProduto,
+        quantidade:this.quantidade ,
+        valorUnitario:this.valorUnitario,
+        valorTotal: this.quantidade * this.valorUnitario,
+        numeroNF: this.numeroNF,
+        serieNF: this.serieNF
+      });
+    }
+    this.columns = [];
+    this.columns = [
+      { property: 'item', label: 'Item', type: 'number', width: '5%'},
+      { property: 'descricaoProduto', label: 'produto', type: 'string', width: '30%'},
+      { property: 'recnoProduto', label: 'recno', type: 'string', width: '30%',visible: false},
+      { property: 'quantidade', label: 'Quantidade', type: 'number', width: '20%'},
+      { property: 'valorUnitario', label: 'Valor Unitário', type: 'number', width: '20%'},
+      { property: 'valorTotal', label: 'Total', type: 'number', width: '15%'},
+      { property: 'numeroNF', label: 'numeroNF', type: 'number', width: '15%',visible: false},
+      { property: 'serieNF', label: 'serieNF', type: 'number', width: '15%',visible: false}
+    ];
+    this.itemsFiltered = this.itemsFiltered2;
+    this.itemsFiltered = this.itemsFiltered2;
+    this.laltera = false;
+    this.lLoadingTable = false;
+  }
+
 
 }
