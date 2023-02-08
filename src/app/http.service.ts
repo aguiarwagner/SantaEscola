@@ -16,6 +16,7 @@ export class HttpService {
   urlApiReunioesentradaSaida = 'http://localhost:84/api/EntradaSaidaReuniao';
   urlApiEntradaSaida = 'http://localhost:84/api/EntradaSaida';
   urlApiRelatorio = 'http://localhost:84/api/Relatorios';
+  urlApiVoluntarios = 'http://localhost:84/api/Voluntarios';
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -59,6 +60,19 @@ export class HttpService {
     ));
   }
 
+  getVoluntarios() {
+    let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+    })
+
+    return this.http.get(this.urlApiVoluntarios,  { headers: headers })
+    .pipe(map(res =>
+        res
+    ));
+  }
+
   postCriancas(mapa: Mapa)  {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -69,6 +83,16 @@ export class HttpService {
     return this.http.post(this.getCadastroCriancas, mapa,  { headers: headers });
   }
 
+  postVoluntarios(mapa: Mapa)  {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+      })
+
+    return this.http.post(this.urlApiVoluntarios, mapa,  { headers: headers });
+  }
+
   putCriancas(Recno: number, mapa: Mapa)  {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -77,6 +101,16 @@ export class HttpService {
       })
 
     return this.http.put(this.getCadastroCriancas + '/' + Recno,  mapa,  { headers: headers });
+  }
+
+  putVoluntarios(Recno: number, mapa: Mapa)  {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+      })
+
+    return this.http.put(this.urlApiVoluntarios + '/' + Recno,  mapa,  { headers: headers });
   }
 
   getCriancasId(id: number): Observable<any> {
@@ -90,6 +124,17 @@ export class HttpService {
 
   }
 
+  getVoluntariosId(id: number): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+      })
+
+    return this.http.get(this.urlApiVoluntarios + '/' + id,  { headers: headers });
+
+  }
+
   deleteCriancas(Recno: number, mapa: Mapa)  {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -98,6 +143,16 @@ export class HttpService {
       })
 
     return this.http.delete(this.getCadastroCriancas + '/' + Recno,  { headers: headers });
+  }
+
+  deleteVoluntarios(Recno: number, mapa: Mapa)  {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
+      })
+
+    return this.http.delete(this.urlApiVoluntarios + '/' + Recno,  { headers: headers });
   }
 
   getReunioes() {

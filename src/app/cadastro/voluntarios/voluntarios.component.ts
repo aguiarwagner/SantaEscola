@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PoBreadcrumb, PoDisclaimer, PoDisclaimerGroup, PoPageAction, PoPageFilter, PoTableColumn } from '@po-ui/ng-components';
-import { HttpService } from '../http.service';
-import { Mapa } from '../Shared/mapa';
+import { HttpService } from 'src/app/http.service';
+import { Mapa } from 'src/app/Shared/mapa';
 
 @Component({
-  selector: 'app-cadastro',
-  templateUrl: './cadastro.component.html',
-  styleUrls: ['./cadastro.component.css']
+  selector: 'app-voluntarios',
+  templateUrl: './voluntarios.component.html',
+  styleUrls: ['./voluntarios.component.css']
 })
-export class CadastroComponent implements OnInit {
+export class VoluntariosComponent implements OnInit {
   mapa: Mapa = new Mapa();
   columns: Array<PoTableColumn> = [];
   loadButton = false;
-  labelButton = "Cadastrar novas Crianças";
+  labelButton = "Cadastrar novos Voluntários";
   isLoading: boolean = true;
   tableActions: Array<PoPageAction>;
   pageActions: Array<PoPageAction>;
@@ -26,26 +26,28 @@ export class CadastroComponent implements OnInit {
   lControlFilter: boolean = false;
   private disclaimers: Array<PoDisclaimer> = [];
 
+
   constructor(
     private router: Router,
     private httpService: HttpService,
   ) { }
 
   ngOnInit(): void {
-    this.GetCriancas()
+    this.GetVoluntarios()
 
     this.columns = [
-      { property: 'NomeCrianca', label: 'Nome Criança', type: 'string', width: '40%'},
-      { property: 'DataNascimento', label: 'Data Nascimento', type: 'string', width: '30%'},
-      { property: 'Endereco', label: 'Endereço', type: 'string', width: '20%'},
-      { property: 'Bairro', label: 'Bairro', type: 'string', width: '10%'}
+      { property: 'nomeVoluntario', label: 'Nome do Voluntário', type: 'string', width: '40%'},
+      { property: 'endereco', label: 'Endereço', type: 'string', width: '20%'},
+      { property: 'bairro', label: 'Bairro', type: 'string', width: '10%'},
+      { property: 'cep', label: 'CEP', type: 'string', width: '10%'},
+      { property: 'funcao', label: 'Função', type: 'string', width: '10%'},
+      { property: 'comunCongregacao', label: 'Comun Congregação', type: 'string', width: '10%'},
 
     ];
     this.tableActions = [
-      { action: this.visualCriancas.bind(this), label: "Visualizar" },
-      { action: this.alteraCriancas.bind(this), label: 'Alterar' },
-      { action: this.excluirCriancas.bind(this), label: 'Excluir' },
-      { action: this.imprimeCriancas.bind(this), label: 'Imprimir' }
+      { action: this.visualVoluntarios.bind(this), label: "Visualizar" },
+      { action: this.alteraVoluntarios.bind(this), label: 'Alterar' },
+      { action: this.excluirVoluntarios.bind(this), label: 'Excluir' },
 
     ]
 
@@ -56,19 +58,20 @@ export class CadastroComponent implements OnInit {
     };
   }
 
-
-  GetCriancas(){
-    this.httpService.getCriancas().subscribe(dados => {
+  GetVoluntarios(){
+    this.httpService.getVoluntarios().subscribe(dados => {
       this.itens = [];
       this.itens = dados
       this.items = this.itens
-     .map( (data: { nomeCrianca: any; dataNascimento: any; endereco: any; bairro: any;  recno: any}) => {
+     .map( (data: { nomeVoluntario: any; endereco: any; cep: any; bairro: any;  recno: any; funcao: any; comunCongregacao: any}) => {
         return {
-          NomeCrianca: data.nomeCrianca,
-          DataNascimento: data.dataNascimento.substring(8, 10) + "/" + data.dataNascimento.substring(5, 7) + "/" + data.dataNascimento.substring(0, 4),
-          Endereco: data.endereco,
-          Bairro: data.bairro,
-          Recno: data.recno
+          nomeVoluntario: data.nomeVoluntario,
+          endereco: data.endereco,
+          cep: data.cep,
+          bairro: data.bairro,
+          recno: data.recno,
+          funcao: data.funcao,
+          comunCongregacao: data.comunCongregacao,
         }
     });
 
@@ -134,21 +137,17 @@ export class CadastroComponent implements OnInit {
   }
 
   Incluir(){
-    this.router.navigate(['cadastro/inclusao']);
+    this.router.navigate(['voluntarios/inclusao']);
   }
-  alteraCriancas(mapa: any){
-    this.router.navigate(['cadastro/alteracao', mapa.Recno]);
+  alteraVoluntarios(mapa: any){
+    this.router.navigate(['voluntarios/alteracao', mapa.recno]);
   }
-  excluirCriancas(mapa: any){
-    this.router.navigate(['cadastro/exclusao', mapa.Recno]);
+  excluirVoluntarios(mapa: any){
+    this.router.navigate(['voluntarios/exclusao', mapa.recno]);
   }
-  visualCriancas(mapa: any){
-    this.router.navigate(['cadastro/visualizacao', mapa.Recno]);
+  visualVoluntarios(mapa: any){
+    this.router.navigate(['voluntarios/visualizacao', mapa.recno]);
   }
-  imprimeCriancas(mapa: any){
-    this.router.navigate(['cadastro/imprime', mapa.Recno]);
-  }
-
 
 
 }

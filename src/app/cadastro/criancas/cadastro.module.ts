@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CadastroComponent } from './cadastro.component';
 import { CadastroRoutingModule } from './cadastro-routing.module';
 import { CommonModule } from '@angular/common';
 import { PoChartModule, PoModule } from '@po-ui/ng-components';
@@ -11,8 +10,7 @@ import { CadastroAlteracaoComponent } from './cadastro-alteracao/cadastro-altera
 import { CadastroExclusaoComponent } from './cadastro-exclusao/cadastro-exclusao.component';
 import { CadastroVisualizacaoComponent } from './cadastro-visualizacao/cadastro-visualizacao.component';
 import { CadastroImprimeComponent } from './cadastro.imprime/cadastro.imprime.component';
-
-
+import { CadastroComponent } from './cadastro.component';
 
 @NgModule({
   declarations: [CadastroComponent, CadastroInclusaoComponent, CadastroAlteracaoComponent, CadastroExclusaoComponent, CadastroVisualizacaoComponent, CadastroImprimeComponent],

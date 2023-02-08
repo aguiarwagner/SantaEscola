@@ -1,0 +1,104 @@
+<po-page-default p-title="Exclusão do cadastro de crianças">
+
+  <div class="po-md-12">
+    <div class="po-md-12">
+      <form #formProduto="ngForm">
+        <po-container>
+          <po-input
+            class="po-md-6"
+            [(ngModel)]="mapa.nomeVoluntario"
+            name="nomeVoluntario"
+            p-label='Nome do Voluntário'
+            p-clean="true"
+            p-disabled="true"
+            p-placeholder="Insira o nome do Voluntário">
+          </po-input>
+
+          <po-input
+            class="po-md-6"
+            [(ngModel)]="mapa.endereco"
+            name="Endereco"
+            p-label='Endereço'
+            p-disabled="true"
+            p-clean="true"
+            p-placeholder="Insira o endereço">
+          </po-input>
+
+          <po-input
+            class="po-md-6"
+            [(ngModel)]="mapa.bairro"
+            name="Bairro"
+            p-label='Bairro'
+            p-disabled="true"
+            p-clean="true"
+            p-placeholder="Insira o Bairro ">
+          </po-input>
+
+          <po-input
+            class="po-md-3"
+            [(ngModel)]="mapa.cep"
+            name="CEP"
+            p-label='CEP'
+            p-clean="true"
+            p-placeholder="Insira o CEP"
+            p-disabled="true"
+            p-mask="99999-999">
+          </po-input>
+
+          <po-input
+            class="po-md-3"
+            [(ngModel)]="mapa.telefone"
+            name="telefone"
+            p-label='Telefone'
+            p-clean="true"
+            p-disabled="true"
+            p-placeholder="Insira o Telefone"
+            p-mask="(99) 99999-9999">
+          </po-input>
+
+          <po-input
+            class="po-md-8"
+            [(ngModel)]="mapa.funcao"
+            name="funcao"
+            p-label='Função'
+            p-disabled="true"
+            p-clean="true"
+            p-placeholder="Insira a função do voluntário"
+            >
+          </po-input>
+          <po-combo
+            id="comunCongregacao"
+            class="po-md-4"
+            [p-filter-mode]="contains"
+            name="comunCongregacao"
+            [ngModel]="mapa.comunCongregacao"
+            (ngModelChange)="mapa.comunCongregacao = $event"
+            p-label="Comum Congregação"
+            [p-options]="SelCongregacao"
+            p-placeholder="Selecione a Comun Congregação">
+          </po-combo>
+
+        </po-container>
+        <po-container>
+          <div class="po-row">
+            <po-button
+              class="po-md-12"
+              p-label="Voltar"
+              p-type="primary"
+              p-icon="po-icon po-icon-exit"
+              [p-small]="true"
+              (p-click)="Cancel()"
+            >
+            </po-button>
+          </div>
+        </po-container>
+      </form>
+
+    </div>
+  </div>
+
+
+
+</po-page-default>
+
+

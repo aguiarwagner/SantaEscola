@@ -13,7 +13,8 @@ const routes: Routes = [
     //{ path: 'entrada', component: EntradaComponent},
     //{ path: 'reunioes', component: ReunioesComponent},
     //{ path: 'cadastro', component: CadastroComponent},
-    { path: 'cadastro', loadChildren: () => import('./cadastro/cadastro.module').then(m => m.CadastroModule), canActivate: [AuthGuard]},
+    { path: 'cadastro', loadChildren: () => import('./cadastro/criancas/cadastro.module').then(m => m.CadastroModule), canActivate: [AuthGuard]},
+    { path: 'voluntarios', loadChildren: () => import('./cadastro/voluntarios/voluntarios.module').then(m => m.VoluntariosModule), canActivate: [AuthGuard]},
     { path: 'reunioes', loadChildren: () => import('./Reunioes/reunioes.module').then(m => m.ReunioesModule), canActivate: [AuthGuard]},
     { path: 'relatorios', loadChildren: () => import('./relatorios/relatorios.module').then(m => m.RelatoriosModule), canActivate: [AuthGuard]},
 

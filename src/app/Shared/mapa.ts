@@ -45,6 +45,9 @@ export class Mapa {
   DataEntrada: any;
   DataSaida: any;
   comunCongregacao: string = "";
+  nomeVoluntario: string = "";
+  telefone: string = "";
+  funcao: string = "";
 
 
   constructor(values: Object = {}) {
