@@ -20,7 +20,7 @@
           p-label='Digite o código de barras.'
           p-clean="true"
           p-required="true"
-          (keyup.Enter)="GravaEntrada($event)"
+          (keyup.Enter)="GravaEntrada($event, 1)"
           p-placeholder="Digite o código de barras ou faça a leitura via leitor.">
         </po-input>
 
@@ -29,7 +29,7 @@
           class="po-md-2"
           p-label="Confirmar"
           p-icon="po-icon po-icon-plus"
-          (p-click)="GravaEntrada($event)">
+          (p-click)="GravaEntrada($event, 1)">
         </po-button>
 
         <po-button
@@ -57,7 +57,7 @@
       <po-container>
         <po-table
           [p-selectable]="true"
-          (p-selected)="GuardaSelecao($event)"
+          (p-selected)="GuardaSelecao($event, 1)"
           [p-hide-select-all]="true"
           [p-actions-right]="true"
           [p-loading]="isLoading"
@@ -70,6 +70,26 @@
 
       </po-container>
     </po-tab>
+    <po-tab
+    p-label="Voluntários"
+    (p-click)="SelecionaAba(3)">
+    <po-container>
+      <po-table
+        [p-selectable]="true"
+        (p-selected)="GuardaSelecao($event, 2)"
+        [p-hide-select-all]="true"
+        [p-actions-right]="true"
+        [p-loading]="isLoading"
+        [p-single-select]="true"
+        [p-columns]="columns2"
+        [p-actions-right]
+        [p-items]="itemsFiltered2"
+        [p-sort]="true">
+      </po-table>
+
+    </po-container>
+  </po-tab>
+
   </po-tabs>
 
 

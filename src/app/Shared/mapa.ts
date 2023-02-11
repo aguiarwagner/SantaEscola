@@ -48,6 +48,7 @@ export class Mapa {
   nomeVoluntario: string = "";
   telefone: string = "";
   funcao: string = "";
+  tipo: any;
 
 
   constructor(values: Object = {}) {

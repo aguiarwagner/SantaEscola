@@ -14,18 +14,22 @@ export class ReunioesCabecalhoVisualizacaoComponent implements OnInit {
   lOk: boolean = true;
   dataReuniao = new Date();
   columns: Array<PoTableColumn> = [];
+  columns3: Array<PoTableColumn> = [];
   loadButton = false;
   labelButton = "Cadastrar nova reunião";
   isLoading: boolean = false;
   tableActions: Array<PoPageAction>;
   pageActions: Array<PoPageAction>;
   itemsFiltered: Array<any>;
+  itemsFiltered3: Array<any>;
   items: Array<any>;
   items2: Array<any>;
+  items3: Array<any>;
   breadcrumb: PoBreadcrumb;
   disclaimerGroup: PoDisclaimerGroup;
   itens: any = [];
   itens2: any = [];
+  itens3: any = [];
   idReuniao: any = "";
 
   constructor(
@@ -38,12 +42,21 @@ export class ReunioesCabecalhoVisualizacaoComponent implements OnInit {
   ngOnInit(): void {
     this.getReunioesId();
     this.getItensReuniao();
+    this.getItensVoluntarios();
     this.itemsFiltered = [];
+    this.itemsFiltered3 = [];
     this.columns = [
       { property: 'recno', label: 'Código', type: 'string', width: '10%'},
       { property: 'nomeCrianca', label: 'Nome criança', type: 'string', width: '60%'},
       { property: 'dataEntrada', label: 'Entrada', type: 'string', width: '15%' },
       { property: 'dataSaida', label: 'Saída', type: 'string', width: '15%'}
+    ];
+
+    this.columns3 = [
+      { property: 'recno', label: 'Código', type: 'string'},
+      { property: 'nomeVoluntario', label: 'Nome do Voluntário', type: 'string'},
+      { property: 'dataEntrada', label: 'Entrada', type: 'string' },
+      { property: 'dataSaida', label: 'Saída', type: 'string'}
     ];
 
   }
@@ -94,6 +107,39 @@ export class ReunioesCabecalhoVisualizacaoComponent implements OnInit {
       }
 
     this.itemsFiltered = [...this.items2];
+    this.isLoading = false
+
+    });
+
+
+  }
+
+  getItensVoluntarios(){
+    this.idReuniao =  this.activatedRoute.snapshot.paramMap.get('id');
+    this.httpService.getEntradaSaida(3, parseInt(this.idReuniao), 0, ).subscribe(dados => {
+      this.itens3 = [];
+      this.itens3 = dados
+      debugger
+      this.items3 = this.itens3
+     .map( (data: {   recno: any, dataEntrada: any, nomeVoluntario: any, dataSaida: any}) => {
+        return {
+          recno: data.recno,
+          nomeVoluntario: data.nomeVoluntario,
+          dataSaida: data.dataSaida,
+          dataEntrada: data.dataEntrada,
+        }
+      });
+
+      for (let index = 0; index < this.items2.length; index++) {
+        if(this.items3[index].dataSaida != undefined){
+          this.items3[index].dataSaida = this.items3[index].dataSaida.substring(8, 10) + "/" + this.items3[index].dataSaida.substring(5, 7) + "/" + this.items3[index].dataSaida.substring(0, 4) + " " + this.items3[index].dataSaida.substring(11, 20);
+        }
+        if(this.items3[index].dataEntrada != undefined){
+          this.items2[index].dataEntrada = this.items3[index].dataEntrada.substring(8, 10) + "/" + this.items3[index].dataEntrada.substring(5, 7) + "/" + this.items3[index].dataEntrada.substring(0, 4) + " " + this.items3[index].dataEntrada.substring(11, 20);
+        }
+      }
+
+    this.itemsFiltered3 = [...this.items3];
     this.isLoading = false
 
     });

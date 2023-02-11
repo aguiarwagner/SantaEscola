@@ -18,19 +18,24 @@ export class ReunioesItensSaidaComponent implements OnInit {
   lTeste: boolean = true;
   isLoading: boolean = true;
   itemsFiltered: Array<any>;
+  itemsFiltered2: Array<any>;
   items: Array<any>;
   items2: Array<any>;
+  items3: Array<any>;
   columns: Array<PoTableColumn> = [];
+  columns2: Array<PoTableColumn> = [];
   breadcrumb: PoBreadcrumb;
   disclaimerGroup: PoDisclaimerGroup;
   itens: any = [];
   itens2: any = [];
+  itens3: any = [];
   lControlFilter: boolean = false;
   private disclaimers: Array<PoDisclaimer> = [];
   lEntradaManual: boolean = true;
   lOk: boolean = true;
   now = new Date();
   urlImagem = "";
+  nGravaVoluntario: number = 0;
 
   constructor(
     public poNotification: PoNotificationService,
@@ -43,6 +48,7 @@ export class ReunioesItensSaidaComponent implements OnInit {
     this.recno =  this.activatedRoute.snapshot.paramMap.get('id');
 
     this.GetCriancas()
+    this.GetVoluntarios()
 
     this.columns = [
       { property: 'Recno', label: 'Código barras', type: 'string', width: '5%'},
@@ -51,6 +57,13 @@ export class ReunioesItensSaidaComponent implements OnInit {
       { property: 'nomePai', label: 'Pai / Responsável', type: 'string', width: '20%'},
       { property: 'nomeMae', label: 'Mãe', type: 'string', width: '20%'},
       { property: 'comunCongregacao', label: 'Comun Congregação', type: 'string', width: '20%'}
+    ];
+
+    this.columns2 = [
+      
+      { property: 'nomeVoluntario', label: 'Nome Voluntário', type: 'string'},
+      { property: 'funcao', label: 'Função', type: 'string'},
+      { property: 'comunCongregacao', label: 'Comun Congregação', type: 'string'},
     ];
 
     this.disclaimerGroup = {
@@ -85,21 +98,70 @@ export class ReunioesItensSaidaComponent implements OnInit {
 
   }
 
-  GravaSaida(value: any){
+  GetVoluntarios(){
+    this.httpService.getVoluntarios().subscribe(dados => {
+      this.itens3 = [];
+      this.itens3 = dados
+      this.items3 = this.itens3
+     .map( (data: { nomeVoluntario: any; funcao: any; comunCongregacao: any; recno: any;}) => {
+        return {
+          nomeVoluntario: data.nomeVoluntario,
+          funcao: data.funcao,
+          comunCongregacao: data.comunCongregacao,
+          recno: data.recno,
+        }
+    });
+
+    this.itemsFiltered2 = [...this.items3];
+    this.isLoading = false
+
+    });
+
+  }
+
+  GravaSaida(value: any, event:any){
+    let recnoCabecalho = 0;
     this.lOk = false;
+    let lAchou = false;
+    this.nGravaVoluntario = event;
     const datePipe = new DatePipe('en-US');
 
     this.httpService.getEntradaSaida(1, parseInt(this.recno), parseInt(this.CodBar), ).subscribe(dados => {
       this.itens2 = [];
       this.itens2 = dados
       this.items2 = this.itens2
-     .map( (data: {   recno: any, dataEntrada: any}) => {
+     .map( (data: {   recno: any, dataEntrada: any, tipo:any}) => {
         return {
           Recno: data.recno,
-          DataEntrada: data.dataEntrada
+          DataEntrada: data.dataEntrada,
+          tipo: data.tipo,
         }
       });
-      if(this.items2.length == 0){
+      if(this.items2.length == 0){        
+        this.CodBar = "";
+        this.urlImagem = "";
+        this.poNotification.warning("Registro de entrada não encontrado, verifique se o código se foi feita a entrada para a criança com o código " + this.CodBar );
+        return  
+      }
+
+      for (let index = 0; index < this.items2.length; index++) {
+        /*this.CodBar = "";
+        this.urlImagem = "";
+        this.poNotification.warning("Registro de entrada não encontrado, verifique se o código se foi feita a entrada para a criança com o código " + this.CodBar );
+        return*/
+        
+        if(this.items2[index].tipo == "voluntario" && this.nGravaVoluntario == 3){
+          recnoCabecalho = this.items2[index].Recno;
+          this.mapa.tipo = this.items2[index].tipo;
+          lAchou = true;
+        }else if(this.items2[index].tipo == undefined && this.nGravaVoluntario != 3){
+          recnoCabecalho = this.items2[index].Recno;
+          this.mapa.tipo = this.items2[index].tipo;
+          lAchou = true;
+        }
+        
+      }
+      if(!lAchou){
         this.CodBar = "";
         this.urlImagem = "";
         this.poNotification.warning("Registro de entrada não encontrado, verifique se o código se foi feita a entrada para a criança com o código " + this.CodBar );
@@ -111,10 +173,10 @@ export class ReunioesItensSaidaComponent implements OnInit {
       this.mapa.RecnoCabecalhoReuniao = parseInt(this.recno);
       this.mapa.DataEntrada = this.items2[0].DataEntrada;
       this.mapa.DataSaida = datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', 'pt-BR');
-      this.mapa.Recno = this.items2[0].Recno;
+      this.mapa.Recno = recnoCabecalho;
 
 
-      this.httpService.putReuniaoEntradaSaida(this.items2[0].Recno, this.mapa).subscribe(() => {
+      this.httpService.putReuniaoEntradaSaida(recnoCabecalho, this.mapa).subscribe(() => {
         this.lOk = true;
         this.poNotification.success("Registro " + this.mapa.RecnoCrianca + " incluído com sucesso!");
         this.urlImagem = './assets/images/' + this.CodBar + '.jpg'
@@ -138,14 +200,18 @@ export class ReunioesItensSaidaComponent implements OnInit {
 
   }
 
-  GuardaSelecao(event: any){
-    this.mapa.RecnoCrianca = event.Recno;
+  GuardaSelecao(event: any, opc: any){
+    if (opc == 1) {
+      this.mapa.RecnoCrianca = event.Recno;
+    } else {
+      this.mapa.RecnoCrianca = event.recno;
+    }
   }
 
-  saidaManual(){
+  saidaManual(event: any){
 
     this.CodBar = this.mapa.RecnoCrianca;
-    this.GravaSaida(this.CodBar);
+    this.GravaSaida(this.CodBar, event);
     /*
     const datePipe = new DatePipe('en-US');
     this.now = new Date();
@@ -233,12 +299,16 @@ export class ReunioesItensSaidaComponent implements OnInit {
 
     if (nOpc == 1) {
       this.actions = [
-        { label: 'Confirmar saida da criança', action: this.saidaManual.bind(this), disabled: this.lEntradaManual, visible: false }
+        { label: 'Confirmar saida da criança', action: this.saidaManual.bind(this, 1), disabled: this.lEntradaManual, visible: false }
       ];
 
-    } else {
+    } else if (nOpc == 3) {
       this.actions = [
-        { label: 'Confirmar saida da criança', action: this.saidaManual.bind(this), disabled: false, visible: true }
+        { label: 'Confirmar saida do Voluntário', action: this.saidaManual.bind(this, 3), disabled: false, visible: true }
+      ];    
+    } else  {
+      this.actions = [
+        { label: 'Confirmar saida da Criança', action: this.saidaManual.bind(this, 2), disabled: false, visible: true }
       ];
 
     }

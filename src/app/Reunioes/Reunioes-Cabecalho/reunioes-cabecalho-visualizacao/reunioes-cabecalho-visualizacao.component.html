@@ -32,20 +32,42 @@
             p-placeholder="Ocorrências">
           </po-textarea>
         </po-container>
-
-        <po-container>
-          <po-table
-            [p-selectable]="true"
-            [p-hide-select-all]="false"
-            [p-selectable]="false"
-            [p-actions-right]="true"
-            [p-loading]="isLoading"
-            [p-columns]="columns"
-            [p-actions-right]
-            [p-items]="itemsFiltered"
-            [p-sort]="true">
-          </po-table>
-        </po-container>
+        <po-tabs>
+          <po-tab
+            [p-active]="true"
+            
+            p-label="Dados das Crianças">
+            
+              <po-table
+                [p-selectable]="true"
+                [p-hide-select-all]="false"
+                [p-selectable]="false"
+                [p-actions-right]="true"
+                [p-loading]="isLoading"
+                [p-columns]="columns"
+                [p-actions-right]
+                [p-items]="itemsFiltered"
+                [p-sort]="true">
+              </po-table>
+            </po-tab>
+            <po-tab
+              p-label="Dados dos voluntários"
+              >
+              <po-table
+                [p-selectable]="true"
+                [p-hide-select-all]="false"
+                [p-selectable]="false"
+                [p-actions-right]="true"
+                [p-loading]="isLoading"
+                [p-columns]="columns3"
+                [p-actions-right]
+                [p-items]="itemsFiltered3"
+                [p-sort]="true">
+              </po-table>
+            </po-tab>
+          </po-tabs>
+       
+         
 
         <po-container>
           <div class="po-row">
