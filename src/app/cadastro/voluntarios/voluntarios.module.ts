@@ -10,11 +10,12 @@ import { VoluntariosInclusaoComponent } from './voluntarios-inclusao/voluntarios
 import { VoluntariosAlteracaoComponent } from './voluntarios-alteracao/voluntarios-alteracao.component';
 import { VoluntariosExclusaoComponent } from './voluntarios-exclusao/voluntarios-exclusao.component';
 import { VoluntariosVisualizacaoComponent } from './voluntarios-visualizacao/voluntarios-visualizacao.component';
+import { VoluntariosImprimeComponent } from './voluntarios-imprime/voluntarios-imprime.component';
 
 
 
 @NgModule({
-  declarations: [VoluntariosComponent, VoluntariosInclusaoComponent, VoluntariosAlteracaoComponent, VoluntariosExclusaoComponent, VoluntariosVisualizacaoComponent],
+  declarations: [VoluntariosComponent, VoluntariosInclusaoComponent, VoluntariosAlteracaoComponent, VoluntariosExclusaoComponent, VoluntariosVisualizacaoComponent, VoluntariosImprimeComponent, VoluntariosImprimeComponent],
   imports: [
     CommonModule,
     VoluntariosRoutingModule,

@@ -60,7 +60,7 @@ export class ReunioesItensSaidaComponent implements OnInit {
     ];
 
     this.columns2 = [
-      
+
       { property: 'nomeVoluntario', label: 'Nome Voluntário', type: 'string'},
       { property: 'funcao', label: 'Função', type: 'string'},
       { property: 'comunCongregacao', label: 'Comun Congregação', type: 'string'},
@@ -130,18 +130,19 @@ export class ReunioesItensSaidaComponent implements OnInit {
       this.itens2 = [];
       this.itens2 = dados
       this.items2 = this.itens2
-     .map( (data: {   recno: any, dataEntrada: any, tipo:any}) => {
+     .map( (data: {   recno: any, dataEntrada: any, tipo:any, dataSaida: any}) => {
         return {
           Recno: data.recno,
           DataEntrada: data.dataEntrada,
+          dataSaida: data.dataSaida,
           tipo: data.tipo,
         }
       });
-      if(this.items2.length == 0){        
+      if(this.items2.length == 0){
         this.CodBar = "";
         this.urlImagem = "";
         this.poNotification.warning("Registro de entrada não encontrado, verifique se o código se foi feita a entrada para a criança com o código " + this.CodBar );
-        return  
+        return
       }
 
       for (let index = 0; index < this.items2.length; index++) {
@@ -149,7 +150,7 @@ export class ReunioesItensSaidaComponent implements OnInit {
         this.urlImagem = "";
         this.poNotification.warning("Registro de entrada não encontrado, verifique se o código se foi feita a entrada para a criança com o código " + this.CodBar );
         return*/
-        
+
         if(this.items2[index].tipo == "voluntario" && this.nGravaVoluntario == 3){
           recnoCabecalho = this.items2[index].Recno;
           this.mapa.tipo = this.items2[index].tipo;
@@ -159,7 +160,14 @@ export class ReunioesItensSaidaComponent implements OnInit {
           this.mapa.tipo = this.items2[index].tipo;
           lAchou = true;
         }
-        
+
+        if(this.items2[index].dataSaida != undefined && this.items2[index].dataSaida != ""){
+          this.CodBar = "";
+          this.urlImagem = "";
+          this.poNotification.warning("Registro de saída já registrado, verifique se o código está correto." + this.CodBar );
+          return
+        }
+
       }
       if(!lAchou){
         this.CodBar = "";
@@ -305,7 +313,7 @@ export class ReunioesItensSaidaComponent implements OnInit {
     } else if (nOpc == 3) {
       this.actions = [
         { label: 'Confirmar saida do Voluntário', action: this.saidaManual.bind(this, 3), disabled: false, visible: true }
-      ];    
+      ];
     } else  {
       this.actions = [
         { label: 'Confirmar saida da Criança', action: this.saidaManual.bind(this, 2), disabled: false, visible: true }

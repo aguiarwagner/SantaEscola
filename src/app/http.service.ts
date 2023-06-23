@@ -259,14 +259,14 @@ export class HttpService {
 
   }
 
-  getRelatorios(id: number, dataIni: string, dataFim: string): Observable<any> {
+  getRelatorios(id: number, dataIni: string, dataFim: string, igreja: string): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer '+ JSON.parse(localStorage.getItem('access_token') || '{}')
       })
 
-    return this.http.get(this.urlApiRelatorio + '/' + id + '?dataIni=' + dataIni + '&dataFim=' + dataFim,  { headers: headers });
+    return this.http.get(this.urlApiRelatorio + '/' + id + '?dataIni=' + dataIni + '&dataFim=' + dataFim + '&igreja=' + igreja,  { headers: headers });
 
   }
 

@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { PoBreadcrumb, PoDisclaimer, PoDisclaimerGroup, PoPageAction, PoPageFilter, PoTableColumn } from '@po-ui/ng-components';
 import { HttpService } from '../http.service';
 import { Mapa } from '../Shared/mapa';
+import { AuthService } from '../guards/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-reunioes',
@@ -23,19 +25,23 @@ export class ReunioesComponent implements OnInit {
   disclaimerGroup: PoDisclaimerGroup;
   itens: any = [];
 
+  AuthService: AuthService = new AuthService( this._httpClient, this.httpService, this.router);
+
   lControlFilter: boolean = false;
   private disclaimers: Array<PoDisclaimer> = [];
 
   constructor(
     private router: Router,
     private httpService: HttpService,
+    private _httpClient: HttpClient,
   ) { }
 
   ngOnInit(): void {
     this.getReunioes();
     this.columns = [
+      { property: 'igreja', label: 'Igreja', type: 'string', width: '20%'},
       { property: 'DataReuniao', label: 'Data da reunião', type: 'string', width: '10%'},
-      { property: 'AssuntoAbordado', label: 'Tema da Aula', type: 'string', width: '70%'},
+      { property: 'AssuntoAbordado', label: 'Tema da Aula', type: 'string', width: '50%'},
       { property: 'Observacoes', label: 'Ocorrências', type: 'string', width: '20%'}
 
     ];
@@ -58,16 +64,43 @@ export class ReunioesComponent implements OnInit {
 
   getReunioes(){
 
+    let dadosUser =  this.AuthService.getUsertoken();
+    debugger
+    let igreja = "";
+
+    switch(dadosUser.name){
+      case 'ccbitapevi':
+        igreja = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbadmitapevi':
+        igreja = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbengcardoso':
+        igreja = 'Vila Engº Cardoso'
+        break;
+      case 'ccbnovaitapevi':
+        igreja = 'Nova Itapevi'
+        break;
+    }
+
     this.httpService.getReunioes().subscribe(dados => {
       this.itens = [];
       this.itens = dados
       this.items = this.itens
-     .map( (data: { dataReuniao: any; assuntoAbordado: any; observacoes: any;recno: any}) => {
+      .filter((dados: { igreja: string; })  => {
+        // Valida SubGrupo Prime
+        if (dados.igreja == igreja) {
+          return true;
+        }
+        return false;
+      })
+     .map( (data: { dataReuniao: any; assuntoAbordado: any; observacoes: any;recno: any; igreja:any}) => {
         return {
           DataReuniao: data.dataReuniao.substring(8, 10) + "/" + data.dataReuniao.substring(5, 7) + "/" + data.dataReuniao.substring(0, 4),
           AssuntoAbordado: data.assuntoAbordado, //.substring(8, 10) + "/" + data.assuntoAbordado.substring(5, 7) + "/" + data.assuntoAbordado.substring(0, 4),
           Observacoes: data.observacoes,
-          Recno: data.recno
+          Recno: data.recno,
+          igreja: data.igreja,
         }
     });
 

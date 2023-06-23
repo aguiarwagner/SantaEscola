@@ -1,6 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PoNotificationService, PoSelectOption } from '@po-ui/ng-components';
+import { AuthService } from 'src/app/guards/auth.service';
 import { HttpService } from 'src/app/http.service';
 import { Mapa } from 'src/app/Shared/mapa';
 
@@ -13,14 +15,38 @@ export class CadastroInclusaoComponent implements OnInit {
   mapa: Mapa = new Mapa();
   lOk: boolean = true;
   contains: any = "contains";
+  AuthService: AuthService = new AuthService( this._httpClient, this.httpService, this.router);
+  disableCombo:boolean = true;
 
   constructor(
     public poNotification: PoNotificationService,
     private router: Router,
     private httpService: HttpService,
+    private _httpClient: HttpClient,
   ) { }
 
   ngOnInit(): void {
+
+    let dadosUser =  this.AuthService.getUsertoken();
+
+    switch(dadosUser.name){
+      case 'ccbitapevi':
+        this.mapa.comunCongregacao = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbadmitapevi':
+        this.mapa.comunCongregacao = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbengcardoso':
+        this.mapa.comunCongregacao = 'Vila Engº Cardoso'
+        break;
+      case 'ccbnovaitapevi':
+        this.mapa.comunCongregacao = 'Nova Itapevi'
+        break;
+    }
+
+    if(dadosUser.role == "manager"){
+      this.disableCombo = false;
+    }
   }
 
   Cancel(){

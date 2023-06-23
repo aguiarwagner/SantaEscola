@@ -27,7 +27,7 @@ export class AppComponent {
     { label: 'Início', icon: 'po-icon-home', link: './', shortLabel: 'Inicio' },
     //{ label: 'Entrada', icon: 'po-icon po-icon-user-add', link: './entrada', shortLabel: 'Entrada' },
     { label: 'Reuniões', icon: 'po-icon po-icon-user-add', link: './reunioes', shortLabel: 'Reuniões' },
-    { label: 'Cadastro', icon: 'po-icon po-icon-news', link: './cadastro', shortLabel: 'Cadastro' },
+    //{ label: 'Cadastro', icon: 'po-icon po-icon-news', link: './cadastro', shortLabel: 'Cadastro' },
     { label: 'Cadastros', icon: 'po-icon-company', shortLabel: 'Cadastros', subItems: [
       { label: 'Cadastro de Crianças', link: './cadastro', icon: 'po-icon-world', shortLabel: 'Cadastro de Crianças' },
       { label: 'Cadastro de Volutários', link: './voluntarios', icon: 'po-icon-world', shortLabel: 'Cadastro de Voluntários' },
@@ -52,6 +52,7 @@ export class AppComponent {
 
   public async isAuth(formData: PoPageLogin) {
     let logado: any;
+
     logado = await this.AuthService.login(formData.login, formData.password );
 
     if  (logado){

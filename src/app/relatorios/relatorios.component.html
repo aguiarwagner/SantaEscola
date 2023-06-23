@@ -23,10 +23,33 @@
               [(ngModel)]="dataFim"
               p-label="Data Final">
             </po-datepicker>
+            <!--
+            <po-combo
+              id="comunCongregacao"
+              class="po-md-4"
+              [p-filter-mode]="contains"
+              [p-disabled]="disableCombo"
+              name="comunCongregacao"
+              (ngModelChange)="mapa.comunCongregacao = $event"
+              [ngModel]="mapa.comunCongregacao"
+              p-label="Comum Congregação"
+              [p-options]="SelCongregacao"
+              p-placeholder="Selecione a Comun Congregação">
+            </po-combo>
+            -->
+
+            <po-multiselect
+              class="po-md-4"
+              name="comunCongregacao"
+              [p-disabled]="disableCombo"
+              p-label="Comum Congregação"
+              [(ngModel)]="mapa.comunCongregacao"
+              [p-options]="SelCongregacao">
+            </po-multiselect>
 
             <po-button
               id="btngerar"
-              class="po-md-6"
+              class="po-md-2"
               p-type="primary"
               p-icon="po-icon po-icon-search"
               [p-small]="true"

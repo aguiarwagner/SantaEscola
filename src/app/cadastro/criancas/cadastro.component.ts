@@ -1,6 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PoBreadcrumb, PoDisclaimer, PoDisclaimerGroup, PoPageAction, PoPageFilter, PoTableColumn } from '@po-ui/ng-components';
+import { AuthService } from 'src/app/guards/auth.service';
 import { HttpService } from 'src/app/http.service';
 import { Mapa } from 'src/app/Shared/mapa';
 
@@ -23,6 +25,7 @@ export class CadastroComponent implements OnInit {
   breadcrumb: PoBreadcrumb;
   disclaimerGroup: PoDisclaimerGroup;
   itens: any = [];
+  AuthService: AuthService = new AuthService( this._httpClient, this.httpService, this.router);
 
   lControlFilter: boolean = false;
   private disclaimers: Array<PoDisclaimer> = [];
@@ -30,6 +33,7 @@ export class CadastroComponent implements OnInit {
   constructor(
     private router: Router,
     private httpService: HttpService,
+    private _httpClient: HttpClient,
   ) { }
 
   ngOnInit(): void {
@@ -59,10 +63,38 @@ export class CadastroComponent implements OnInit {
 
 
   GetCriancas(){
+    debugger
+    let dadosUser =  this.AuthService.getUsertoken();
+
+    let igreja = "";
+
+    switch(dadosUser.name){
+      case 'ccbitapevi':
+        igreja = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbadmitapevi':
+        igreja = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbengcardoso':
+        igreja = 'Vila Engº Cardoso'
+        break;
+      case 'ccbnovaitapevi':
+        igreja = 'Nova Itapevi'
+        break;
+    }
+
+
     this.httpService.getCriancas().subscribe(dados => {
       this.itens = [];
       this.itens = dados
       this.items = this.itens
+      .filter((dados: { comunCongregacao: string; })  => {
+        // Valida SubGrupo Prime
+        if (dados.comunCongregacao == igreja) {
+          return true;
+        }
+        return false;
+      })
      .map( (data: { nomeCrianca: any; dataNascimento: any; endereco: any; bairro: any;  recno: any}) => {
         return {
           NomeCrianca: data.nomeCrianca,

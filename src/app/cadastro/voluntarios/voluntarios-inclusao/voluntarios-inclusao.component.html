@@ -67,7 +67,9 @@
             [p-filter-mode]="contains"
             name="comunCongregacao"
             (ngModelChange)="mapa.comunCongregacao = $event"
+            [ngModel]="mapa.comunCongregacao"
             p-label="Comum Congregação"
+            [p-disabled]="disableCombo"
             [p-options]="SelCongregacao"
             p-placeholder="Selecione a Comun Congregação">
           </po-combo>

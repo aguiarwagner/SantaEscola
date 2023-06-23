@@ -17,6 +17,7 @@ export class VoluntariosAlteracaoComponent implements OnInit {
   lOk: boolean = true;
   contains: any = "contains";
   comunCongregacao: string = "" ;
+  disableCombo:boolean = true;
 
   constructor(
     public poNotification: PoNotificationService,

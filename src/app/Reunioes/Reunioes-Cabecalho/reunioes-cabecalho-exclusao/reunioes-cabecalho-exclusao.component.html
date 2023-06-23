@@ -6,12 +6,24 @@
         <po-container>
 
           <po-datepicker
-            class="po-md-5"
+            class="po-md-6"
             name="dataReuniao"
             p-disabled="true"
             [(ngModel)]="mapa.dataReuniao"
             p-label="Data da reuniao">
           </po-datepicker>
+
+          <po-combo
+            id="comunCongregacao"
+            class="po-md-6"
+            [p-filter-mode]="contains"
+            name="comunCongregacao"
+            (ngModelChange)="mapa.igreja = $event"
+            [ngModel]="mapa.igreja"
+            p-label="Comum Congregação"
+            [p-options]="SelCongregacao"
+            p-placeholder="Selecione a Comun Congregação">
+          </po-combo>
 
           <po-textarea
             class="po-md-12"

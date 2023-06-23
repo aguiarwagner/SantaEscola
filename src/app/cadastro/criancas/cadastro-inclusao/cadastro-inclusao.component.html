@@ -1,4 +1,4 @@
-<po-page-default p-title="Inclusão de produto">
+<po-page-default p-title="Inclusão de Crianças">
 
   <div class="po-md-12">
     <div class="po-md-12">
@@ -52,8 +52,10 @@
             id="comunCongregacao"
             class="po-md-4"
             [p-filter-mode]="contains"
+            [p-disabled]="disableCombo"
             name="comunCongregacao"
             (ngModelChange)="mapa.comunCongregacao = $event"
+            [ngModel]="mapa.comunCongregacao"
             p-label="Comum Congregação"
             [p-options]="SelCongregacao"
             p-placeholder="Selecione a Comun Congregação">

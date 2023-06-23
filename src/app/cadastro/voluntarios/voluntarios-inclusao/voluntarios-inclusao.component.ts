@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { PoNotificationService, PoSelectOption } from '@po-ui/ng-components';
 import { HttpService } from 'src/app/http.service';
 import { Mapa } from 'src/app/Shared/mapa';
+import { AuthService } from 'src/app/guards/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-voluntarios-inclusao',
@@ -13,14 +15,33 @@ export class VoluntariosInclusaoComponent implements OnInit {
   mapa: Mapa = new Mapa();
   lOk: boolean = true;
   contains: any = "contains";
+  disableCombo:boolean = true;
+  AuthService: AuthService = new AuthService( this._httpClient, this.httpService, this.router);
 
   constructor(
     public poNotification: PoNotificationService,
     private router: Router,
     private httpService: HttpService,
+    private _httpClient: HttpClient,
   ) { }
 
   ngOnInit(): void {
+    let dadosUser =  this.AuthService.getUsertoken();
+
+    switch(dadosUser.name){
+      case 'ccbitapevi':
+        this.mapa.comunCongregacao = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbadmitapevi':
+        this.mapa.comunCongregacao = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbengcardoso':
+        this.mapa.comunCongregacao = 'Vila Engº Cardoso'
+        break;
+      case 'ccbnovaitapevi':
+        this.mapa.comunCongregacao = 'Nova Itapevi'
+        break;
+    }
   }
 
   Cancel(){

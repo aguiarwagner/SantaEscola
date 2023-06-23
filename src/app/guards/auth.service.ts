@@ -22,6 +22,7 @@ export class AuthService {
   public userLogado = "";
   mapa: Mapa = new Mapa();
 
+
   constructor(private _httpClient: HttpClient, private httpService: HttpService,  private router: Router) {}
 
 
@@ -41,6 +42,9 @@ export class AuthService {
       token = resposta
       localStorage.setItem('access_token', JSON.stringify(token.token));
       this.mostraMenu = true;
+      this.userLogado = "";
+      let dadosUser =  this.getUsertoken();
+      this.userLogado = dadosUser.name;
       this.router.navigate(['']);
       return true
     });
@@ -100,7 +104,7 @@ export class AuthService {
 
   getUsertoken(){
     const jwt = this.getJwt();
-    return jwt.email;
+    return jwt;
   }
 
   getJwt(): any {

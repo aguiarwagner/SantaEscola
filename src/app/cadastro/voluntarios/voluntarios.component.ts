@@ -1,6 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PoBreadcrumb, PoDisclaimer, PoDisclaimerGroup, PoPageAction, PoPageFilter, PoTableColumn } from '@po-ui/ng-components';
+import { AuthService } from 'src/app/guards/auth.service';
 import { HttpService } from 'src/app/http.service';
 import { Mapa } from 'src/app/Shared/mapa';
 
@@ -25,11 +27,13 @@ export class VoluntariosComponent implements OnInit {
 
   lControlFilter: boolean = false;
   private disclaimers: Array<PoDisclaimer> = [];
+  AuthService: AuthService = new AuthService( this._httpClient, this.httpService, this.router);
 
 
   constructor(
     private router: Router,
     private httpService: HttpService,
+    private _httpClient: HttpClient,
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +52,7 @@ export class VoluntariosComponent implements OnInit {
       { action: this.visualVoluntarios.bind(this), label: "Visualizar" },
       { action: this.alteraVoluntarios.bind(this), label: 'Alterar' },
       { action: this.excluirVoluntarios.bind(this), label: 'Excluir' },
+      { action: this.imprimeCriancas.bind(this), label: 'Imprimir' }
 
     ]
 
@@ -59,10 +64,37 @@ export class VoluntariosComponent implements OnInit {
   }
 
   GetVoluntarios(){
+
+    let dadosUser =  this.AuthService.getUsertoken();
+
+    let igreja = "";
+
+    switch(dadosUser.name){
+      case 'ccbitapevi':
+        igreja = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbadmitapevi':
+        igreja = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbengcardoso':
+        igreja = 'Vila Engº Cardoso'
+        break;
+      case 'ccbnovaitapevi':
+        igreja = 'Nova Itapevi'
+        break;
+    }
+
     this.httpService.getVoluntarios().subscribe(dados => {
       this.itens = [];
       this.itens = dados
       this.items = this.itens
+      .filter((dados: { comunCongregacao: string; })  => {
+        // Valida SubGrupo Prime
+        if (dados.comunCongregacao == igreja) {
+          return true;
+        }
+        return false;
+      })
      .map( (data: { nomeVoluntario: any; endereco: any; cep: any; bairro: any;  recno: any; funcao: any; comunCongregacao: any}) => {
         return {
           nomeVoluntario: data.nomeVoluntario,
@@ -149,5 +181,7 @@ export class VoluntariosComponent implements OnInit {
     this.router.navigate(['voluntarios/visualizacao', mapa.recno]);
   }
 
-
+  imprimeCriancas(mapa: any){
+    this.router.navigate(['voluntarios/imprime', mapa.recno, mapa.nomeVoluntario, mapa.comunCongregacao, mapa.funcao]);
+  }
 }

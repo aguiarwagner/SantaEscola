@@ -55,6 +55,7 @@
             [ngModel]="mapa.comunCongregacao"
             (ngModelChange)="mapa.comunCongregacao = $event"
             p-label="Comum Congregação"
+            [p-disabled]="disableCombo"
             [p-options]="SelCongregacao"
             p-placeholder="Selecione a Comun Congregação">
           </po-combo>

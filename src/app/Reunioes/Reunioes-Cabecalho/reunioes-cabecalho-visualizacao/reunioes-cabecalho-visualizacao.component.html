@@ -6,11 +6,23 @@
         <po-container>
 
           <po-datepicker
-            class="po-md-5"
+            class="po-md-6"
             name="dataReuniao"
             [(ngModel)]="mapa.dataReuniao"
             p-label="Data da reuniao">
           </po-datepicker>
+
+          <po-combo
+            id="comunCongregacao"
+            class="po-md-6"
+            [p-filter-mode]="contains"
+            name="comunCongregacao"
+            (ngModelChange)="mapa.igreja = $event"
+            [ngModel]="mapa.igreja"
+            p-label="Comum Congregação"
+            [p-options]="SelCongregacao"
+            p-placeholder="Selecione a Comun Congregação">
+          </po-combo>
 
           <po-textarea
             class="po-md-12"
@@ -35,9 +47,9 @@
         <po-tabs>
           <po-tab
             [p-active]="true"
-            
+
             p-label="Dados das Crianças">
-            
+
               <po-table
                 [p-selectable]="true"
                 [p-hide-select-all]="false"
@@ -66,8 +78,8 @@
               </po-table>
             </po-tab>
           </po-tabs>
-       
-         
+
+
 
         <po-container>
           <div class="po-row">

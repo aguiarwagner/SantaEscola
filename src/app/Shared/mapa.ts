@@ -44,11 +44,12 @@ export class Mapa {
   RecnoCabecalhoReuniao: number;
   DataEntrada: any;
   DataSaida: any;
-  comunCongregacao: string = "";
+  comunCongregacao: any;
   nomeVoluntario: string = "";
   telefone: string = "";
   funcao: string = "";
   tipo: any;
+  igreja: string;
 
 
   constructor(values: Object = {}) {

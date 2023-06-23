@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PoBreadcrumb, PoDisclaimer, PoDisclaimerGroup, PoNotificationService, PoPageAction, PoPageFilter, PoTableColumn } from '@po-ui/ng-components';
+import { AuthService } from 'src/app/guards/auth.service';
 import { HttpService } from 'src/app/http.service';
 import { Mapa } from 'src/app/Shared/mapa';
 
@@ -36,19 +38,39 @@ export class ReunioesItensEntradaComponent implements OnInit {
   now = new Date();
   urlImagem = "";
   nGravaVoluntario: number = 0;
+  AuthService: AuthService = new AuthService( this._httpClient, this.httpService, this.router);
 
   constructor(
     public poNotification: PoNotificationService,
     private router: Router,
     private httpService: HttpService,
     private activatedRoute: ActivatedRoute,
+    private _httpClient: HttpClient,
   ) { }
 
   ngOnInit(): void {
     this.recno =  this.activatedRoute.snapshot.paramMap.get('id');
+    let dadosUser =  this.AuthService.getUsertoken();
+    debugger
+    let igreja = "";
 
-    this.GetCriancas()
-    this.GetVoluntarios()
+    switch(dadosUser.name){
+      case 'ccbitapevi':
+        igreja = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbadmitapevi':
+        igreja = 'Jd. Itapevi - Central'
+        break;
+      case 'ccbengcardoso':
+        igreja = 'Vila Engº Cardoso'
+        break;
+      case 'ccbnovaitapevi':
+        igreja = 'Nova Itapevi'
+        break;
+    }
+
+    this.GetCriancas(igreja)
+    this.GetVoluntarios(igreja)
 
     this.columns = [
       { property: 'Recno', label: 'Código barras', type: 'string', width: '5%'},
@@ -60,7 +82,7 @@ export class ReunioesItensEntradaComponent implements OnInit {
     ];
 
     this.columns2 = [
-      
+
       { property: 'nomeVoluntario', label: 'Nome Voluntário', type: 'string'},
       { property: 'funcao', label: 'Função', type: 'string'},
       { property: 'comunCongregacao', label: 'Comun Congregação', type: 'string'},
@@ -73,11 +95,18 @@ export class ReunioesItensEntradaComponent implements OnInit {
     };
   }
 
-  GetCriancas(){
+  GetCriancas(igreja: any){
+    debugger
     this.httpService.getCriancas().subscribe(dados => {
       this.itens = [];
       this.itens = dados
       this.items = this.itens
+      .filter((lista: { comunCongregacao: any; }) => {
+        if(lista.comunCongregacao == igreja){
+          return true
+        }
+        return false
+      })
      .map( (data: { nomeCrianca: any; dataNascimento: any; endereco: any; bairro: any;  recno: any; comunCongregacao: any; nomePai: any; nomeMae: any}) => {
         return {
           NomeCrianca: data.nomeCrianca,
@@ -98,11 +127,17 @@ export class ReunioesItensEntradaComponent implements OnInit {
 
   }
 
-  GetVoluntarios(){
+  GetVoluntarios(igreja: any){
     this.httpService.getVoluntarios().subscribe(dados => {
       this.itens3 = [];
       this.itens3 = dados
       this.items3 = this.itens3
+      .filter((lista: { comunCongregacao: any; }) => {
+        if(lista.comunCongregacao == igreja){
+          return true
+        }
+        return false
+      })
      .map( (data: { nomeVoluntario: any; funcao: any; comunCongregacao: any; recno: any;}) => {
         return {
           nomeVoluntario: data.nomeVoluntario,
@@ -130,17 +165,17 @@ export class ReunioesItensEntradaComponent implements OnInit {
       for (let index = 0; index < this.items3.length; index++) {
         if (this.items3[index].recno == parseInt(this.CodBar)) {
           lAchou = true
-        }  
+        }
       }
     }else{
       this.mapa.tipo = undefined;
       for (let index = 0; index < this.items.length; index++) {
         if (this.items[index].Recno == parseInt(this.CodBar)) {
           lAchou = true
-        }  
+        }
       }
     }
-    
+
 
     if(!lAchou){
       this.urlImagem = "";
@@ -170,10 +205,10 @@ export class ReunioesItensEntradaComponent implements OnInit {
             this.CodBar = "";
             return
           }
-          
+
         }
-        
-        
+
+
       }
 
       this.now = new Date();
@@ -211,7 +246,7 @@ export class ReunioesItensEntradaComponent implements OnInit {
     } else {
       this.mapa.RecnoCrianca = event.recno;
     }
-    
+
   }
 
   entradaManual(event: any){
@@ -310,7 +345,7 @@ export class ReunioesItensEntradaComponent implements OnInit {
     } else if (nOpc == 3) {
       this.actions = [
         { label: 'Confirmar entrada do Voluntário', action: this.entradaManual.bind(this, 3), disabled: false, visible: true }
-      ];    
+      ];
     } else  {
       this.actions = [
         { label: 'Confirmar entrada da Criança', action: this.entradaManual.bind(this, 2), disabled: false, visible: true }
